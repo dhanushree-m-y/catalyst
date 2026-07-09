@@ -27,16 +27,16 @@ export default function About() {
             <Flower className="about-flower" />
             <div className="arch arch-1">
               <ImageSlot
-                src="https://images.unsplash.com/photo-1633114072836-15d933c6d3a7?q=80&w=800&auto=format&fit=crop"
+                src="/networking.jpg"
                 shape="rect"
-                placeholder="Women building together"
+                placeholder="Women networking at a Catalyst event"
               />
             </div>
             <div className="arch arch-2">
               <ImageSlot
-                src="https://images.unsplash.com/photo-1758691736580-a41e0cfe9e9f?q=80&w=800&auto=format&fit=crop"
+                src="/men.jpg"
                 shape="rect"
-                placeholder="Women collaborating"
+                placeholder="Building together, empowering women"
               />
             </div>
           </div>
