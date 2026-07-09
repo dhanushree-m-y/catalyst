@@ -3,7 +3,9 @@ import Flower from "./Flower";
 
 const images = [
   "/YoubelongHere1.jpg",
+  "/civil.jpg",
   "/YoubelongHere2.jpg",
+  "/electronics.jpg",
   "/YoubelongHere3.jpg",
   "/YoubelongHere4.jpg",
 ];
