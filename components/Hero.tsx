@@ -1,6 +1,9 @@
+import HeroDecor from "./HeroDecor";
+
 export default function Hero() {
   return (
     <header className="hero band-rose">
+      <HeroDecor />
       <div className="wrap hero-grid">
         <div className="hero-copy">
           <div className="hero-head reveal">
