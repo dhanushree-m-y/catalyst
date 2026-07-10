@@ -60,3 +60,31 @@ So sign up with that exact email, then open `/admin`.
 | `/admin` | Admin dashboard — counts, tables, CSV (admins only) |
 
 Nav shows **Log in** when signed out, **Account** when signed in.
+
+---
+
+## Email verification (via your Gmail)
+
+Verification emails send **from your Gmail account** (no domain needed). Turn it on with an
+app password:
+
+1. Sign in to **myaccount.google.com** as **buildwithcatalyst@gmail.com** → **Security**.
+2. Turn on **2-Step Verification** (required for app passwords).
+3. Search **"App passwords"** in your Google Account → create one named **Catalyst** → copy the
+   **16-character** password (ignore the spaces).
+4. In Vercel → **Settings → Environment Variables**, add:
+
+   | Key | Value |
+   |-----|-------|
+   | `GMAIL_USER` | `buildwithcatalyst@gmail.com` |
+   | `GMAIL_APP_PASSWORD` | the 16-char app password (no spaces) |
+
+5. **Redeploy.**
+
+Now new members see a **"Verify email"** button on `/account` → they get a 6-digit code by email
+→ enter it → they're marked **verified**. Google sign-ins are auto-verified. Until you add these
+keys, the account simply shows "Email not verified" with no button (nothing breaks).
+
+## Login required to register a team
+Once `NEXT_PUBLIC_REGISTRATION_OPEN=true`, opening `/register` requires an account — logged-out
+visitors are sent to `/login` and returned to registration after signing in.

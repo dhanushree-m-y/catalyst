@@ -19,6 +19,9 @@ export type User = {
   institution?: string;
   avatar?: string; // data: URL (small, stored in DB)
   verified?: boolean;
+  // internal (email verification), never exposed
+  verifyCode?: string;
+  verifyExpires?: string;
 };
 export type PublicUser = Omit<User, "passwordHash">;
 
@@ -62,6 +65,8 @@ async function db(): Promise<Sql> {
       await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS institution text`;
       await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar text`;
       await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS verified boolean NOT NULL DEFAULT false`;
+      await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS verify_code text`;
+      await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS verify_expires timestamptz`;
       return sql;
     })();
   }
@@ -247,6 +252,54 @@ export async function updateProfile(id: string, patch: ProfilePatch): Promise<Pu
   const { passwordHash: _o, ...pub } = merged;
   void _o;
   return pub;
+}
+
+/** Generate a fresh 6-digit verification code (15-min expiry). Returns the code. */
+export async function setVerifyCode(id: string): Promise<string | null> {
+  const user = await getUserById(id);
+  if (!user) return null;
+  const code = String(Math.floor(100000 + Math.random() * 900000));
+  const expires = new Date(Date.now() + 15 * 60 * 1000).toISOString();
+  if (hasDb()) {
+    const sql = await db();
+    await sql`UPDATE users SET verify_code = ${code}, verify_expires = ${expires} WHERE id = ${id}`;
+  } else {
+    const list = await readFileUsers();
+    const i = list.findIndex((u) => u.id === id);
+    if (i >= 0) {
+      list[i].verifyCode = code;
+      list[i].verifyExpires = expires;
+      await writeFileUsers(list);
+    }
+  }
+  return code;
+}
+
+/** Check a verification code; on success marks the account verified. */
+export async function checkVerifyCode(id: string, code: string): Promise<"ok" | "invalid" | "expired"> {
+  const clean = String(code).trim();
+  if (hasDb()) {
+    const sql = await db();
+    const rows = await sql`SELECT verify_code, verify_expires FROM users WHERE id = ${id} LIMIT 1`;
+    const r = rows[0];
+    if (!r || !r.verify_code) return "invalid";
+    if (String(r.verify_code) !== clean) return "invalid";
+    const exp = r.verify_expires ? new Date(r.verify_expires as string).getTime() : 0;
+    if (exp && exp < Date.now()) return "expired";
+    await sql`UPDATE users SET verified = true, verify_code = null, verify_expires = null WHERE id = ${id}`;
+    return "ok";
+  }
+  const list = await readFileUsers();
+  const i = list.findIndex((u) => u.id === id);
+  if (i < 0 || !list[i].verifyCode) return "invalid";
+  if (String(list[i].verifyCode) !== clean) return "invalid";
+  const exp = list[i].verifyExpires ? new Date(list[i].verifyExpires as string).getTime() : 0;
+  if (exp && exp < Date.now()) return "expired";
+  list[i].verified = true;
+  delete list[i].verifyCode;
+  delete list[i].verifyExpires;
+  await writeFileUsers(list);
+  return "ok";
 }
 
 export async function listUsers(): Promise<PublicUser[]> {

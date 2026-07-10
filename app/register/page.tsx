@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 import RegistrationForm from "@/components/RegistrationForm";
 import Flower from "@/components/Flower";
 import Footer from "@/components/Footer";
@@ -15,7 +17,13 @@ export const metadata: Metadata = {
 // Flip to "true" (env var on Vercel or here) to turn the live team form back on.
 const REGISTRATION_OPEN = process.env.NEXT_PUBLIC_REGISTRATION_OPEN === "true";
 
-export default function RegisterPage() {
+export default async function RegisterPage() {
+  // require an account before registering a team (only matters once registration is open)
+  if (REGISTRATION_OPEN) {
+    const session = await auth();
+    if (!session?.user) redirect("/login?callbackUrl=/register");
+  }
+
   return (
     <div className="reg-page">
       <nav className="hack-nav">

@@ -977,3 +977,17 @@ footer{background:linear-gradient(160deg,var(--soft-2),var(--soft));color:var(--
 .avatar-link{background:none;border:none;color:var(--accent);font-weight:700;font-size:13px;cursor:pointer;padding:6px 0 0;}
 .avatar-link:hover{text-decoration:underline;}
 .account-avatar{width:34px;height:34px;border-radius:50%;object-fit:cover;vertical-align:middle;}
+
+/* email verification */
+.account-verify{margin-bottom:18px;}
+.verify-badge{display:inline-flex;align-items:center;gap:6px;background:#fff3f6;border:1px solid var(--rose);
+  color:var(--clay);font-weight:700;font-size:13px;padding:6px 14px;border-radius:999px;}
+.verify-badge.ok{background:#e9f9ef;border-color:#8fd6a8;color:#1f7a44;}
+.verify-btn{background:none;border:none;color:var(--accent);font-weight:700;font-size:14px;cursor:pointer;padding:0;}
+.verify-btn:hover{text-decoration:underline;}
+.verify-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.verify-msg{font-size:13.5px;color:var(--clay);margin-bottom:10px;}
+.verify-input{background:#f5e7ed;border:1.5px solid transparent;border-radius:10px;padding:11px 14px;
+  font-size:16px;letter-spacing:3px;width:150px;font-family:var(--sans);color:var(--ink);}
+.verify-input:focus{outline:none;border-color:var(--accent);background:#fff;}
+.verify-resend{background:none;border:none;color:var(--ink-3);font-weight:600;font-size:13px;cursor:pointer;text-decoration:underline;}

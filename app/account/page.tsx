@@ -6,6 +6,8 @@ import Flower from "@/components/Flower";
 import Footer from "@/components/Footer";
 import LogoutButton from "@/components/LogoutButton";
 import ProfileForm from "@/components/ProfileForm";
+import VerifyBadge from "@/components/VerifyBadge";
+import { emailConfigured } from "@/lib/email";
 
 export const metadata: Metadata = { title: "Your account — Catalyst" };
 export const dynamic = "force-dynamic";
@@ -58,6 +60,10 @@ export default async function AccountPage() {
 
       <section className="reg-wrap">
         <div className="wrap wrap-narrow">
+          <div className="account-verify">
+            <VerifyBadge verified={!!dbUser?.verified} emailEnabled={emailConfigured()} />
+          </div>
+
           {!complete && (
             <p className="reg-info">
               Complete your profile so we can keep in touch and speed up event registration.
