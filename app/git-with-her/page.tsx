@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import AccountChip from "@/components/AccountChip";
 import HackDetails from "@/components/HackDetails";
 import HackProblems from "@/components/HackProblems";
 import HackWho from "@/components/HackWho";
@@ -70,6 +71,7 @@ export default function GitWithHerPage() {
             <a href="/register" className="btn btn-primary">
               Register
             </a>
+            <AccountChip />
           </div>
         </div>
       </nav>

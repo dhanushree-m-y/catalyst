@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import RegistrationForm from "@/components/RegistrationForm";
+import SubNav from "@/components/SubNav";
 import Flower from "@/components/Flower";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -26,18 +27,7 @@ export default async function RegisterPage() {
 
   return (
     <div className="reg-page">
-      <nav className="hack-nav">
-        <div className="hack-inner">
-          <a href="/" className="logo">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/catalyst-mark.svg" alt="" />
-            Catalyst
-          </a>
-          <a href="/git-with-her" className="hack-back">
-            ← Back to the hackathon
-          </a>
-        </div>
-      </nav>
+      <SubNav />
 
       <header className="reg-hero band-rose">
         <Flower className="reg-flower" />

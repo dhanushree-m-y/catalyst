@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import SponsorForm from "@/components/SponsorForm";
+import SubNav from "@/components/SubNav";
 import Flower from "@/components/Flower";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -15,18 +16,7 @@ export const metadata: Metadata = {
 export default function SponsorPage() {
   return (
     <div className="reg-page">
-      <nav className="hack-nav">
-        <div className="hack-inner">
-          <a href="/" className="logo">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/catalyst-mark.svg" alt="" />
-            Catalyst
-          </a>
-          <a href="/#sponsors" className="hack-back">
-            ← Back to Catalyst
-          </a>
-        </div>
-      </nav>
+      <SubNav />
 
       <header className="reg-hero band-rose">
         <Flower className="reg-flower" />

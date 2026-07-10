@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Logo from "./Logo";
+import AccountChip from "./AccountChip";
 
 const LEFT: [string, string][] = [
   ["#about", "About"],
@@ -74,9 +75,7 @@ export default function Nav() {
               {label}
             </a>
           ))}
-          <a href={session?.user ? "/account" : "/login"} className="nav-auth">
-            {session?.user ? "Account" : "Log in"}
-          </a>
+          <AccountChip />
         </div>
 
         <button
