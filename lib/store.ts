@@ -93,4 +93,30 @@ export async function listSubmissions(kind?: Kind): Promise<Submission[]> {
   return out;
 }
 
+/** Delete one submission by id. Returns true if a row was removed. */
+export async function deleteSubmission(id: string): Promise<boolean> {
+  if (hasDb()) {
+    const sql = await db();
+    const rows = await sql`DELETE FROM submissions WHERE id = ${id} RETURNING id`;
+    return rows.length > 0;
+  }
+  let removed = false;
+  for (const k of Object.keys(FILE) as Kind[]) {
+    const file = path.join(process.cwd(), "data", FILE[k]);
+    try {
+      const parsed = JSON.parse(await fs.readFile(file, "utf8"));
+      if (Array.isArray(parsed)) {
+        const next = parsed.filter((x) => (x as { id?: string }).id !== id);
+        if (next.length !== parsed.length) {
+          await fs.writeFile(file, JSON.stringify(next, null, 2), "utf8");
+          removed = true;
+        }
+      }
+    } catch {
+      /* no file yet */
+    }
+  }
+  return removed;
+}
+
 export const KINDS = Object.keys(FILE) as Kind[];

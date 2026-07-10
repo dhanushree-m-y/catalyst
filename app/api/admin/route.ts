@@ -1,9 +1,19 @@
 import { NextResponse } from "next/server";
-import { listSubmissions, KINDS, type Kind, type Submission } from "@/lib/store";
+import { listSubmissions, deleteSubmission, KINDS, type Kind, type Submission } from "@/lib/store";
+import { deleteUser } from "@/lib/users";
 import { auth } from "@/auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+/** True if the request is from a logged-in admin, or carries the ADMIN_KEY. */
+async function isAdmin(req: Request): Promise<boolean> {
+  const key = new URL(req.url).searchParams.get("key");
+  const admin = process.env.ADMIN_KEY;
+  if (admin && key === admin) return true;
+  const session = await auth();
+  return session?.user?.role === "admin";
+}
 
 /**
  * View / export submissions. Protected by the ADMIN_KEY env var.
@@ -42,6 +52,24 @@ export async function GET(req: Request) {
   }
 
   return NextResponse.json({ count: rows.length, rows });
+}
+
+/** Delete one submission row or one account. Body: { type: "submission"|"user", id }. */
+export async function DELETE(req: Request) {
+  if (!(await isAdmin(req))) return new NextResponse("Not found", { status: 404 });
+
+  let body: { type?: string; id?: string } = {};
+  try {
+    body = await req.json();
+  } catch {
+    /* empty body */
+  }
+  const id = typeof body.id === "string" ? body.id.trim() : "";
+  const type = body.type === "user" ? "user" : "submission";
+  if (!id) return NextResponse.json({ ok: false, error: "Missing id." }, { status: 400 });
+
+  const removed = type === "user" ? await deleteUser(id) : await deleteSubmission(id);
+  return NextResponse.json({ ok: removed });
 }
 
 function toCsv(rows: Submission[]): string {

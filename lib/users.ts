@@ -378,3 +378,17 @@ export async function listUsers(): Promise<PublicUser[]> {
     })
     .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
 }
+
+/** Delete one account by id. Returns true if a row was removed. */
+export async function deleteUser(id: string): Promise<boolean> {
+  if (hasDb()) {
+    const sql = await db();
+    const rows = await sql`DELETE FROM users WHERE id = ${id} RETURNING id`;
+    return rows.length > 0;
+  }
+  const list = await readFileUsers();
+  const next = list.filter((u) => u.id !== id);
+  if (next.length === list.length) return false;
+  await writeFileUsers(next);
+  return true;
+}

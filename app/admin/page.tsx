@@ -6,6 +6,7 @@ import { listUsers, type PublicUser } from "@/lib/users";
 import LogoutButton from "@/components/LogoutButton";
 import Flower from "@/components/Flower";
 import CursorGlow from "@/components/CursorGlow";
+import AdminDeleteButton from "@/components/AdminDeleteButton";
 import type { ReactNode } from "react";
 
 export const metadata: Metadata = { title: "Admin dashboard — Catalyst" };
@@ -185,6 +186,7 @@ export default async function AdminPage() {
                         <th key={label}>{label}</th>
                       ))}
                       <th>When</th>
+                      <th aria-label="Actions"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -194,6 +196,12 @@ export default async function AdminPage() {
                           <td key={label}>{cell(r[key])}</td>
                         ))}
                         <td className="admin-when">{fmtDate(r.submittedAt)}</td>
+                        <td className="admin-act">
+                          <AdminDeleteButton
+                            id={r.id}
+                            label={cell(r[meta.cols[0][0]]) || meta.label}
+                          />
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -226,6 +234,7 @@ export default async function AdminPage() {
                   <th>Age</th>
                   <th>Role</th>
                   <th>Joined</th>
+                  <th aria-label="Actions"></th>
                 </tr>
               </thead>
               <tbody>
@@ -240,6 +249,13 @@ export default async function AdminPage() {
                     <td>{u.age ?? "—"}</td>
                     <td>{u.role}</td>
                     <td className="admin-when">{fmtDate(u.createdAt)}</td>
+                    <td className="admin-act">
+                      {u.role === "admin" ? (
+                        <span className="admin-act-lock" title="Admin accounts can't be deleted here">—</span>
+                      ) : (
+                        <AdminDeleteButton id={u.id} type="user" label={u.email} />
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>
