@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { listSubmissions, deleteSubmission, KINDS, type Kind, type Submission } from "@/lib/store";
-import { deleteUser } from "@/lib/users";
+import { deleteUser, listUsers } from "@/lib/users";
 import { auth } from "@/auth";
 
 export const runtime = "nodejs";
@@ -35,6 +35,12 @@ export async function GET(req: Request) {
   }
   if (!byKey && !bySession) {
     return new NextResponse("Not found", { status: 404 });
+  }
+
+  // ?users=1 -> list accounts instead of submissions
+  if (url.searchParams.get("users")) {
+    const users = await listUsers();
+    return NextResponse.json({ count: users.length, users });
   }
 
   const kindParam = url.searchParams.get("kind");
