@@ -160,10 +160,6 @@ export default function AuthPanel({
               ? "Create your account and start building with the Catalyst community."
               : "Log in to continue your journey with Catalyst."}
           </p>
-          <blockquote>
-            &ldquo;Alone we can do so little; together we can do so much.&rdquo;
-            <cite>— Helen Keller</cite>
-          </blockquote>
           <p className="authx-about">
             Catalyst is a community for women across every field — a space to learn,
             build and grow together, and home to <strong>Git With Her</strong>, our
