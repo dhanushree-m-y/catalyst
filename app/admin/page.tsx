@@ -4,6 +4,9 @@ import { auth } from "@/auth";
 import { listSubmissions, type Submission, type Kind } from "@/lib/store";
 import { listUsers, type PublicUser } from "@/lib/users";
 import LogoutButton from "@/components/LogoutButton";
+import Flower from "@/components/Flower";
+import CursorGlow from "@/components/CursorGlow";
+import type { ReactNode } from "react";
 
 export const metadata: Metadata = { title: "Admin dashboard — Catalyst" };
 export const dynamic = "force-dynamic";
@@ -29,6 +32,42 @@ const KIND_META: Record<Kind, { label: string; cols: [string, string][] }> = {
     label: "Event proposals",
     cols: [["name", "Name"], ["email", "Email"], ["eventTitle", "Idea"], ["format", "Format"]],
   },
+};
+
+const STAT_ICONS: Record<string, ReactNode> = {
+  team: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" />
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  ),
+  member: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
+    </svg>
+  ),
+  sponsor: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="8" width="18" height="4" rx="1" /><path d="M12 8v13M5 12v9h14v-9" />
+      <path d="M12 8S9.5 3 7.2 4.6 12 8 12 8zM12 8s2.5-5 4.8-3.4S12 8 12 8z" />
+    </svg>
+  ),
+  volunteer: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20.8 5.6a5 5 0 0 0-7.4-.2L12 6.8l-1.4-1.4a5 5 0 1 0-7 7.1L12 21l8.4-9.3a5 5 0 0 0 .4-6.1z" />
+    </svg>
+  ),
+  host: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" />
+    </svg>
+  ),
+  accounts: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="4" width="18" height="16" rx="2" /><circle cx="9" cy="10" r="2" />
+      <path d="M6.2 16c.3-1.6 1.5-2.5 2.8-2.5s2.5.9 2.8 2.5" /><path d="M14.5 9.5H18M14.5 13H18" />
+    </svg>
+  ),
 };
 
 function cell(v: unknown): string {
@@ -81,24 +120,27 @@ export default async function AdminPage() {
     Submission[]
   >;
 
-  const stats: { label: string; value: number; href: string }[] = [
-    { label: "Team registrations", value: byKind.participant.length, href: "#participant" },
-    { label: "Community members", value: byKind.member.length, href: "#member" },
-    { label: "Sponsors", value: byKind.sponsor.length, href: "#sponsor" },
-    { label: "Volunteers", value: byKind.volunteer.length, href: "#volunteer" },
-    { label: "Event proposals", value: byKind.host.length, href: "#host" },
-    { label: "Accounts", value: userCount, href: "#accounts" },
+  const stats: { label: string; value: number; href: string; icon: string }[] = [
+    { label: "Team registrations", value: byKind.participant.length, href: "#participant", icon: "team" },
+    { label: "Community members", value: byKind.member.length, href: "#member", icon: "member" },
+    { label: "Sponsors", value: byKind.sponsor.length, href: "#sponsor", icon: "sponsor" },
+    { label: "Volunteers", value: byKind.volunteer.length, href: "#volunteer", icon: "volunteer" },
+    { label: "Event proposals", value: byKind.host.length, href: "#host", icon: "host" },
+    { label: "Accounts", value: userCount, href: "#accounts", icon: "accounts" },
   ];
 
   return (
     <div className="admin-page">
+      <Flower className="admin-flower af1" />
+      <Flower className="admin-flower af2" />
       <header className="admin-top">
-        <div>
-          <div className="eyebrow">Catalyst · Admin</div>
-          <h1 className="admin-title">Dashboard</h1>
+        <div className="admin-head-left">
+          <div className="eyebrow admin-eyebrow">Your dashboard</div>
+          <h1 className="admin-title">Catalyst control room</h1>
+          <p className="admin-sub">Everyone who&apos;s registered, joined or reached out — all in one place.</p>
         </div>
         <div className="admin-top-actions">
-          <a href="/api/admin?format=csv" className="btn btn-dark">Download all (CSV)</a>
+          <a href="/api/admin?format=csv" className="btn btn-dark">↓ Download all (CSV)</a>
           <LogoutButton className="btn btn-ghost" />
         </div>
       </header>
@@ -110,6 +152,7 @@ export default async function AdminPage() {
       <div className="admin-stats">
         {stats.map((s) => (
           <a key={s.label} href={s.href} className="admin-stat">
+            <span className="admin-stat-ico">{STAT_ICONS[s.icon]}</span>
             <div className="admin-stat-num">{s.value}</div>
             <div className="admin-stat-label">{s.label}</div>
           </a>
@@ -204,6 +247,8 @@ export default async function AdminPage() {
           </div>
         )}
       </section>
+
+      <CursorGlow />
     </div>
   );
 }
