@@ -940,3 +940,20 @@ footer{background:linear-gradient(160deg,var(--soft-2),var(--soft));color:var(--
 .auth-spark.s8{bottom:22%;left:17%;font-size:20px;animation-duration:4.6s;animation-delay:-.9s;}
 @media (prefers-reduced-motion:reduce){ .auth-flr,.auth-spark{animation:none;} }
 @media (max-width:640px){ .auth-flr.f5,.auth-spark.s3,.auth-spark.s7{display:none;} }
+
+/* lighter overlay panel + more decor */
+.auth-overlay{background:linear-gradient(135deg,#ff8fc4 0%,#f556a6 55%,#ec3e93 100%);}
+.auth-flr.f6{top:31%;left:13%;width:66px;height:66px;opacity:.34;animation-delay:-1.3s;}
+.auth-flr.f7{bottom:20%;left:3.5%;width:104px;height:104px;opacity:.4;animation-delay:-2.8s;}
+.auth-flr.f8{top:57%;right:12%;width:72px;height:72px;opacity:.34;animation-delay:-0.8s;}
+.auth-flr.f9{top:80%;left:11%;width:60px;height:60px;opacity:.3;animation-delay:-3.5s;}
+.auth-spark.s9{top:8%;left:22%;font-size:16px;animation-duration:3.9s;animation-delay:-1.2s;}
+.auth-spark.s10{bottom:7%;left:24%;font-size:20px;animation-duration:4.5s;animation-delay:-2.1s;}
+.auth-spark.s11{top:10%;right:22%;font-size:15px;animation-duration:3.5s;animation-delay:-0.7s;}
+.auth-spark.s12{bottom:11%;right:24%;font-size:22px;animation-duration:5s;animation-delay:-1.9s;}
+.auth-spark.s13{top:38%;left:20%;font-size:13px;animation-duration:4.1s;animation-delay:-2.6s;}
+.auth-spark.s14{top:82%;right:19%;font-size:18px;animation-duration:4.7s;animation-delay:-1s;}
+@media (max-width:640px){ .auth-flr.f6,.auth-flr.f8,.auth-spark.s9,.auth-spark.s11,.auth-spark.s13{display:none;} }
+
+/* balance: light but keeps white text legible */
+.auth-overlay{background:linear-gradient(135deg,#ff6fb0 0%,#f14e9e 55%,#ec3e93 100%);}
