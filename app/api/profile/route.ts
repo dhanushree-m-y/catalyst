@@ -22,18 +22,22 @@ export async function POST(req: Request) {
 
   const s = (v: unknown) => (typeof v === "string" ? v.trim() : undefined);
   const patch: ProfilePatch = {
+    name: s(body.name),
     phone: s(body.phone),
     gender: s(body.gender),
+    dob: s(body.dob),
     city: s(body.city),
+    state: s(body.state),
     institution: s(body.institution),
+    bio: s(body.bio)?.slice(0, 400),
   };
 
-  if (body.age !== undefined && body.age !== null && body.age !== "") {
-    const n = Number(body.age);
-    if (!Number.isFinite(n) || n < 13 || n > 100) {
-      return NextResponse.json({ ok: false, error: "Please enter a valid age (13–100)." }, { status: 400 });
-    }
-    patch.age = Math.round(n);
+  if (Array.isArray(body.skills)) {
+    patch.skills = (body.skills as unknown[])
+      .filter((x) => typeof x === "string")
+      .map((x) => (x as string).trim())
+      .filter(Boolean)
+      .slice(0, 20);
   }
 
   if (typeof body.avatar === "string" && body.avatar) {

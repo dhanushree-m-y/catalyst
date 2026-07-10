@@ -15,8 +15,12 @@ export type User = {
   // profile
   gender?: string;
   age?: number;
+  dob?: string;
   city?: string;
+  state?: string;
   institution?: string;
+  bio?: string;
+  skills?: string[];
   avatar?: string; // data: URL (small, stored in DB)
   verified?: boolean;
   // internal (email verification), never exposed
@@ -26,11 +30,15 @@ export type User = {
 export type PublicUser = Omit<User, "passwordHash">;
 
 export type ProfilePatch = {
+  name?: string;
   phone?: string;
   gender?: string;
-  age?: number;
+  dob?: string;
   city?: string;
+  state?: string;
   institution?: string;
+  bio?: string;
+  skills?: string[];
   avatar?: string;
 };
 
@@ -67,6 +75,10 @@ async function db(): Promise<Sql> {
       await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS verified boolean NOT NULL DEFAULT false`;
       await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS verify_code text`;
       await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS verify_expires timestamptz`;
+      await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS dob text`;
+      await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS state text`;
+      await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS bio text`;
+      await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS skills text`;
       return sql;
     })();
   }
@@ -117,11 +129,28 @@ function rowToUser(r: Record<string, unknown>): User {
       r.created_at instanceof Date ? r.created_at.toISOString() : String(r.created_at ?? new Date().toISOString()),
     gender: (r.gender as string) ?? undefined,
     age: r.age == null ? undefined : Number(r.age),
+    dob: (r.dob as string) ?? undefined,
     city: (r.city as string) ?? undefined,
+    state: (r.state as string) ?? undefined,
     institution: (r.institution as string) ?? undefined,
+    bio: (r.bio as string) ?? undefined,
+    skills: parseSkills(r.skills),
     avatar: (r.avatar as string) ?? undefined,
     verified: Boolean(r.verified),
   };
+}
+
+function parseSkills(v: unknown): string[] {
+  if (Array.isArray(v)) return v as string[];
+  if (typeof v === "string" && v.trim()) {
+    try {
+      const p = JSON.parse(v);
+      return Array.isArray(p) ? p : [];
+    } catch {
+      return [];
+    }
+  }
+  return [];
 }
 
 const strip = <T extends Record<string, unknown>>(o: T): Partial<T> =>
@@ -234,11 +263,15 @@ export async function updateProfile(id: string, patch: ProfilePatch): Promise<Pu
   if (hasDb()) {
     const sql = await db();
     await sql`UPDATE users SET
+        name = ${merged.name ?? null},
         phone = ${merged.phone ?? null},
         gender = ${merged.gender ?? null},
-        age = ${merged.age ?? null},
+        dob = ${merged.dob ?? null},
         city = ${merged.city ?? null},
+        state = ${merged.state ?? null},
         institution = ${merged.institution ?? null},
+        bio = ${merged.bio ?? null},
+        skills = ${JSON.stringify(merged.skills ?? [])},
         avatar = ${merged.avatar ?? null}
       WHERE id = ${id}`;
   } else {
@@ -299,6 +332,33 @@ export async function checkVerifyCode(id: string, code: string): Promise<"ok" | 
   delete list[i].verifyCode;
   delete list[i].verifyExpires;
   await writeFileUsers(list);
+  return "ok";
+}
+
+/** Change a user's password (verifies the current one unless they have none e.g. Google-only). */
+export async function changePassword(
+  id: string,
+  currentPassword: string,
+  newPassword: string
+): Promise<"ok" | "wrong" | "notfound"> {
+  const user = await getUserById(id);
+  if (!user) return "notfound";
+  if (user.passwordHash) {
+    const ok = await bcrypt.compare(currentPassword, user.passwordHash);
+    if (!ok) return "wrong";
+  }
+  const hash = await bcrypt.hash(newPassword, 10);
+  if (hasDb()) {
+    const sql = await db();
+    await sql`UPDATE users SET password_hash = ${hash} WHERE id = ${id}`;
+  } else {
+    const list = await readFileUsers();
+    const i = list.findIndex((u) => u.id === id);
+    if (i >= 0) {
+      list[i].passwordHash = hash;
+      await writeFileUsers(list);
+    }
+  }
   return "ok";
 }
 
