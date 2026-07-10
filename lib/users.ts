@@ -59,12 +59,17 @@ async function writeFileUsers(list: User[]) {
   await fs.writeFile(FILE(), JSON.stringify(list, null, 2), "utf8");
 }
 
-/** Admin emails come from ADMIN_EMAILS (comma-separated). */
+// Default admin(s) — used when the ADMIN_EMAILS env var isn't set.
+// (Not secret: this email is already published across the site.)
+const DEFAULT_ADMINS = ["buildwithcatalyst@gmail.com"];
+
+/** Admin emails come from ADMIN_EMAILS (comma-separated), falling back to DEFAULT_ADMINS. */
 export function roleForEmail(email: string): Role {
-  const admins = (process.env.ADMIN_EMAILS || "")
+  const configured = (process.env.ADMIN_EMAILS || "")
     .split(",")
     .map((e) => e.trim().toLowerCase())
     .filter(Boolean);
+  const admins = configured.length ? configured : DEFAULT_ADMINS;
   return admins.includes(email.trim().toLowerCase()) ? "admin" : "user";
 }
 
