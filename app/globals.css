@@ -1225,3 +1225,23 @@ footer{background:linear-gradient(160deg,var(--soft-2),var(--soft));color:var(--
 /* ---- site-style script eyebrows on the dashboard (Grand Hotel) ---- */
 .dash-eyebrow{font-size:22px;margin-bottom:2px;justify-content:flex-start;}
 .dash-ov-head{font-family:var(--script);font-weight:400;font-style:normal;color:var(--accent);font-size:22px;margin-bottom:14px;letter-spacing:0;}
+
+/* ---- dashboard hover effects: match the site's cards exactly ---- */
+.dash-card{transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;}
+.dash-card:hover{transform:translateY(-6px);box-shadow:0 30px 60px -38px rgba(24,18,22,.4);border-color:var(--accent);}
+.dash-journey{transition:transform .3s ease,box-shadow .3s ease;}
+.dash-journey:hover{transform:translateY(-4px);box-shadow:0 26px 48px -30px rgba(236,62,147,.55);}
+.dash-navitem{transition:background .2s ease,color .2s ease,transform .2s ease;}
+.dash-navitem:hover{background:#fdeff4;color:var(--accent);transform:translateX(3px);}
+.dash-tabs button{transition:color .2s ease,border-color .2s ease;}
+.dash-tabs button:hover{color:var(--accent);}
+.dash-save{transition:filter .2s ease,transform .12s ease,background .2s ease,color .2s ease;}
+.dash-save:hover{filter:brightness(1.07);transform:translateY(-1px);}
+.dash-promo-btn{transition:filter .2s ease,transform .15s ease;}
+.dash-promo-btn:hover{filter:brightness(1.07);transform:translateY(-1px);}
+.dash-userchip>button,.dash-bell{transition:color .2s ease,transform .15s ease;}
+.dash-userchip>button:hover,.dash-bell:hover{color:var(--accent);transform:translateY(-1px);}
+.dash-avatar{transition:transform .25s ease;}
+.dash-avatar:hover{transform:scale(1.05);}
+.dash-skill{transition:background .2s ease;}
+.dash-skill:hover{background:#ffd0e2;}
