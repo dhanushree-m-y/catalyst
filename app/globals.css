@@ -50,7 +50,10 @@
 }
 
 *{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;accent-color:var(--accent);}
+/* pink calendar/checkbox highlights + tint the date-picker icon */
+input[type="date"]::-webkit-calendar-picker-indicator{cursor:pointer;
+  filter:invert(28%) sepia(89%) saturate(2400%) hue-rotate(300deg) brightness(95%);}
 body{font-family:var(--sans);color:var(--ink);background:var(--paper);
   -webkit-font-smoothing:antialiased;line-height:1.55;overflow-x:hidden;}
 /* form controls & buttons don't inherit fonts by default — force the site font */
