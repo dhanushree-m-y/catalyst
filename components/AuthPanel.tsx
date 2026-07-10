@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Flower from "@/components/Flower";
 
 type Social = { google?: boolean; github?: boolean; linkedin?: boolean };
 
@@ -142,6 +143,8 @@ export default function AuthPanel({
     <div className="authx">
       {/* LEFT — branding */}
       <div className="authx-left">
+        <Flower className="authx-flower af1" />
+        <Flower className="authx-flower af2" />
         <a href="/" className="authx-brand">
           <span className="authx-spark">✦</span>
           <span>
@@ -161,17 +164,6 @@ export default function AuthPanel({
             &ldquo;Alone we can do so little; together we can do so much.&rdquo;
             <cite>— Helen Keller</cite>
           </blockquote>
-        </div>
-
-        <div className="authx-card">
-          <span className="authx-card-ico">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-              <circle cx="9" cy="8" r="3" />
-              <circle cx="17" cy="9" r="2.4" />
-              <path d="M3 20a6 6 0 0112 0M15 20a5 5 0 016-4.6" />
-            </svg>
-          </span>
-          Join a community of changemakers, builders and dreamers.
         </div>
 
         <div className="authx-stats">

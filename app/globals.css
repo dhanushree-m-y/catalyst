@@ -1063,6 +1063,9 @@ footer{background:linear-gradient(160deg,var(--soft-2),var(--soft));color:var(--
 
 .authx-left{position:relative;padding:36px 38px 0;display:flex;flex-direction:column;overflow:hidden;min-height:610px;
   background:linear-gradient(160deg,#fde7ef 0%,#fbcedf 62%,#f6b9d1 100%);}
+.authx-flower{position:absolute;z-index:0;pointer-events:none;opacity:.5;}
+.authx-flower.af1{width:130px;top:-22px;right:-26px;}
+.authx-flower.af2{width:92px;bottom:74px;left:-24px;opacity:.4;}
 .authx-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
 .authx-spark{color:var(--accent);font-size:19px;}
 .authx-word{font-family:var(--script);font-size:26px;color:var(--accent);display:block;line-height:1;}
