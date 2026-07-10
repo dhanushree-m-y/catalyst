@@ -25,10 +25,31 @@ const grandHotel = Grand_Hotel({
   display: "swap",
 });
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://catalyst-self-eight.vercel.app";
+
+const TITLE = "Catalyst — A community where women who build belong, learn & grow";
+const DESCRIPTION =
+  "Catalyst is a community for women across every field — software, electronics, civil, mechanical, design and beyond. Find your people, sharpen your craft, and build. Join Git With Her.";
+
 export const metadata: Metadata = {
-  title: "Catalyst — A community where women who build belong, learn & grow",
-  description:
-    "Catalyst is a community for women across every field — software, electronics, civil, mechanical, design and beyond. Find your people, sharpen your craft, and build. Join Git With Her.",
+  metadataBase: new URL(SITE_URL),
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: "Catalyst",
+    title: TITLE,
+    description: DESCRIPTION,
+    url: "/",
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "Catalyst" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/og.jpg"],
+  },
 };
 
 export default function RootLayout({
