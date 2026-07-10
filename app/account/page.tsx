@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getUserById } from "@/lib/users";
 import AccountDashboard, { type DashUser } from "@/components/AccountDashboard";
+import CursorGlow from "@/components/CursorGlow";
 
 export const metadata: Metadata = { title: "My Profile — Catalyst" };
 export const dynamic = "force-dynamic";
@@ -28,5 +29,10 @@ export default async function AccountPage() {
     avatar: db?.avatar,
   };
 
-  return <AccountDashboard user={user} />;
+  return (
+    <>
+      <AccountDashboard user={user} />
+      <CursorGlow />
+    </>
+  );
 }

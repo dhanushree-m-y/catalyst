@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import AuthPanel from "@/components/AuthPanel";
+import CursorGlow from "@/components/CursorGlow";
 
 export const metadata: Metadata = {
   title: "Log in — Catalyst",
@@ -16,6 +17,7 @@ export default function LoginPage() {
   return (
     <main className="auth-stage">
       <AuthPanel initialMode="signin" social={social} />
+      <CursorGlow />
     </main>
   );
 }
