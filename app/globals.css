@@ -53,6 +53,8 @@
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
 body{font-family:var(--sans);color:var(--ink);background:var(--paper);
   -webkit-font-smoothing:antialiased;line-height:1.55;overflow-x:hidden;}
+/* form controls & buttons don't inherit fonts by default — force the site font */
+button,input,select,textarea{font-family:inherit;}
 img{display:block;max-width:100%;}
 a{color:var(--accent);text-decoration:none;transition:color .18s;}
 a:hover{color:var(--accent-deep);}
