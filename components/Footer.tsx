@@ -24,7 +24,7 @@ export default function Footer() {
           </div>
           <div className="foot-col">
             <h4>Get involved</h4>
-            <a href="/register">Register</a>
+            <a href="/git-with-her">Register</a>
             <a href="/sponsor">Become a sponsor</a>
             <a href="/volunteer">Volunteer</a>
             <a href="#contact">Contact</a>

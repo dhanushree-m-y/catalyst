@@ -17,7 +17,7 @@ export default function FinalCta() {
         <div className="final-content">
           <div className="eyebrow">Your seat is waiting</div>
           <h2 className="h2">Ready to build your next idea?</h2>
-          <a href="/register" className="btn btn-primary">
+          <a href="/git-with-her" className="btn btn-primary">
             Register Now <span className="arw">→</span>
           </a>
         </div>
