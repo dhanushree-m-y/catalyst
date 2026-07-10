@@ -88,3 +88,13 @@ keys, the account simply shows "Email not verified" with no button (nothing brea
 ## Login required to register a team
 Once `NEXT_PUBLIC_REGISTRATION_OPEN=true`, opening `/register` requires an account — logged-out
 visitors are sent to `/login` and returned to registration after signing in.
+
+## Social logins (Google / GitHub / LinkedIn)
+Each button appears/works only when its keys are set (otherwise it shows "being set up").
+Add in Vercel → Environment Variables, then Redeploy:
+
+| Provider | Keys | Callback URL to register with the provider |
+|----------|------|--------------------------------------------|
+| Google   | `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET` | `…/api/auth/callback/google` |
+| GitHub   | `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET` | `…/api/auth/callback/github` |
+| LinkedIn | `AUTH_LINKEDIN_ID`, `AUTH_LINKEDIN_SECRET` | `…/api/auth/callback/linkedin` |

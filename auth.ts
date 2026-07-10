@@ -3,6 +3,8 @@ import NextAuth, { type DefaultSession } from "next-auth";
 import type { Provider } from "next-auth/providers";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
+import GitHub from "next-auth/providers/github";
+import LinkedIn from "next-auth/providers/linkedin";
 import { verifyCredentials, upsertGoogleUser, roleForEmail } from "@/lib/users";
 
 /**
@@ -42,9 +44,15 @@ const providers: Provider[] = [
   }),
 ];
 
-// "Continue with Google" appears only when its credentials are configured.
+// Social providers appear only when their credentials are configured.
 if (process.env.AUTH_GOOGLE_ID && process.env.AUTH_GOOGLE_SECRET) {
   providers.unshift(Google({ allowDangerousEmailAccountLinking: true }));
+}
+if (process.env.AUTH_GITHUB_ID && process.env.AUTH_GITHUB_SECRET) {
+  providers.push(GitHub({ allowDangerousEmailAccountLinking: true }));
+}
+if (process.env.AUTH_LINKEDIN_ID && process.env.AUTH_LINKEDIN_SECRET) {
+  providers.push(LinkedIn({ allowDangerousEmailAccountLinking: true }));
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -54,9 +62,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   pages: { signIn: "/login" },
   providers,
   callbacks: {
-    // ensure Google users exist in our table + carry role
+    // ensure social-login users exist in our table + carry role
     async signIn({ user, account }) {
-      if (account?.provider === "google" && user.email) {
+      if ((account?.type === "oauth" || account?.type === "oidc") && user.email) {
         const u = await upsertGoogleUser({ name: user.name ?? undefined, email: user.email });
         user.id = u.id;
         user.role = u.role;
