@@ -1245,25 +1245,3 @@ footer{background:linear-gradient(160deg,var(--soft-2),var(--soft));color:var(--
 .dash-avatar:hover{transform:scale(1.05);}
 .dash-skill{transition:background .2s ease;}
 .dash-skill:hover{background:#ffd0e2;}
-
-/* ============ HERO decorative background (plants + flower pot + sunlight) ============ */
-.hero{position:relative;overflow:hidden;}
-.hero-decor{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
-.hero .wrap{position:relative;z-index:1;}
-.hero-beam{position:absolute;top:-30%;left:8%;width:34%;height:170%;transform:rotate(16deg);
-  background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0));filter:blur(6px);opacity:.6;}
-.hero-plant{position:absolute;bottom:0;display:block;}
-.hero-plant.hp-left{left:-6px;width:118px;opacity:.9;}
-.hero-plant.hp-right{right:-10px;width:172px;opacity:.85;}
-.hero-plant.hp-pot{left:calc(50% - 40px);bottom:6px;width:78px;opacity:.95;}
-@media (max-width:960px){
-  .hero-plant.hp-pot{display:none;}
-  .hero-plant.hp-left{width:88px;opacity:.7;}
-  .hero-plant.hp-right{width:120px;opacity:.6;}
-}
-@media (prefers-reduced-motion:no-preference){
-  .hero-plant{animation:heroSway 7s ease-in-out infinite;transform-origin:bottom center;}
-  .hero-plant.hp-right{animation-delay:-2.5s;}
-  .hero-plant.hp-pot{animation-delay:-1.2s;animation-duration:6s;}
-}
-@keyframes heroSway{0%,100%{transform:rotate(-1.5deg);}50%{transform:rotate(1.5deg);}}
