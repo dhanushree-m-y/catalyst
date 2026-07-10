@@ -962,3 +962,18 @@ footer{background:linear-gradient(160deg,var(--soft-2),var(--soft));color:var(--
 .auth-back{position:relative;z-index:2;margin-top:24px;color:var(--clay);font-weight:700;
   font-size:14px;text-decoration:none;letter-spacing:.01em;transition:color .2s;}
 .auth-back:hover{color:var(--accent);}
+
+/* ============ PROFILE (account) ============ */
+.profile-head{display:flex;align-items:center;gap:20px;margin-bottom:8px;flex-wrap:wrap;}
+.avatar-edit{position:relative;width:92px;height:92px;border-radius:50%;border:none;padding:0;cursor:pointer;
+  background:var(--blush);flex:0 0 auto;}
+.avatar-edit img{width:92px;height:92px;border-radius:50%;object-fit:cover;display:block;}
+.avatar-initial{display:flex;width:92px;height:92px;border-radius:50%;align-items:center;justify-content:center;
+  font-family:var(--serif);font-weight:700;font-size:38px;color:var(--accent);background:var(--blush);}
+.avatar-cam{position:absolute;right:-2px;bottom:-2px;width:30px;height:30px;border-radius:50%;background:var(--accent);
+  color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(74,19,48,.3);}
+.profile-name{font-family:var(--serif);font-weight:700;font-size:22px;color:var(--ink);}
+.profile-email{font-size:14px;color:var(--ink-3);margin-top:2px;}
+.avatar-link{background:none;border:none;color:var(--accent);font-weight:700;font-size:13px;cursor:pointer;padding:6px 0 0;}
+.avatar-link:hover{text-decoration:underline;}
+.account-avatar{width:34px;height:34px;border-radius:50%;object-fit:cover;vertical-align:middle;}

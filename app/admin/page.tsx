@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { listSubmissions, type Submission, type Kind } from "@/lib/store";
-import { listUsers } from "@/lib/users";
+import { listUsers, type PublicUser } from "@/lib/users";
 import LogoutButton from "@/components/LogoutButton";
 
 export const metadata: Metadata = { title: "Admin dashboard — Catalyst" };
@@ -65,14 +65,15 @@ export default async function AdminPage() {
   }
 
   let rows: Submission[] = [];
-  let userCount = 0;
+  let users: PublicUser[] = [];
   let dbError = false;
   try {
     rows = await listSubmissions();
-    userCount = (await listUsers()).length;
+    users = await listUsers();
   } catch {
     dbError = true;
   }
+  const userCount = users.length;
 
   const kinds = Object.keys(KIND_META) as Kind[];
   const byKind = Object.fromEntries(kinds.map((k) => [k, rows.filter((r) => r.kind === k)])) as Record<
@@ -80,13 +81,13 @@ export default async function AdminPage() {
     Submission[]
   >;
 
-  const stats: { label: string; value: number; kind?: Kind }[] = [
-    { label: "Team registrations", value: byKind.participant.length, kind: "participant" },
-    { label: "Community members", value: byKind.member.length, kind: "member" },
-    { label: "Sponsors", value: byKind.sponsor.length, kind: "sponsor" },
-    { label: "Volunteers", value: byKind.volunteer.length, kind: "volunteer" },
-    { label: "Event proposals", value: byKind.host.length, kind: "host" },
-    { label: "Accounts", value: userCount },
+  const stats: { label: string; value: number; href: string }[] = [
+    { label: "Team registrations", value: byKind.participant.length, href: "#participant" },
+    { label: "Community members", value: byKind.member.length, href: "#member" },
+    { label: "Sponsors", value: byKind.sponsor.length, href: "#sponsor" },
+    { label: "Volunteers", value: byKind.volunteer.length, href: "#volunteer" },
+    { label: "Event proposals", value: byKind.host.length, href: "#host" },
+    { label: "Accounts", value: userCount, href: "#accounts" },
   ];
 
   return (
@@ -108,7 +109,7 @@ export default async function AdminPage() {
 
       <div className="admin-stats">
         {stats.map((s) => (
-          <a key={s.label} href={s.kind ? `#${s.kind}` : undefined} className="admin-stat">
+          <a key={s.label} href={s.href} className="admin-stat">
             <div className="admin-stat-num">{s.value}</div>
             <div className="admin-stat-label">{s.label}</div>
           </a>
@@ -159,6 +160,50 @@ export default async function AdminPage() {
           </section>
         );
       })}
+
+      <section id="accounts" className="admin-section">
+        <div className="admin-section-head">
+          <h2>
+            Accounts <span className="admin-count">{users.length}</span>
+          </h2>
+        </div>
+        {users.length === 0 ? (
+          <p className="admin-empty">No accounts yet.</p>
+        ) : (
+          <div className="admin-table-wrap">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>City</th>
+                  <th>Institution</th>
+                  <th>Gender</th>
+                  <th>Age</th>
+                  <th>Role</th>
+                  <th>Joined</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map((u) => (
+                  <tr key={u.id}>
+                    <td>{u.name || "—"}</td>
+                    <td>{u.email}</td>
+                    <td>{u.phone || "—"}</td>
+                    <td>{u.city || "—"}</td>
+                    <td>{u.institution || "—"}</td>
+                    <td>{u.gender || "—"}</td>
+                    <td>{u.age ?? "—"}</td>
+                    <td>{u.role}</td>
+                    <td className="admin-when">{fmtDate(u.createdAt)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
     </div>
   );
 }

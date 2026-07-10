@@ -12,8 +12,24 @@ export type User = {
   provider: "credentials" | "google";
   passwordHash?: string;
   createdAt: string;
+  // profile
+  gender?: string;
+  age?: number;
+  city?: string;
+  institution?: string;
+  avatar?: string; // data: URL (small, stored in DB)
+  verified?: boolean;
 };
 export type PublicUser = Omit<User, "passwordHash">;
+
+export type ProfilePatch = {
+  phone?: string;
+  gender?: string;
+  age?: number;
+  city?: string;
+  institution?: string;
+  avatar?: string;
+};
 
 const DB_URL =
   process.env.DATABASE_URL ||
@@ -39,6 +55,13 @@ async function db(): Promise<Sql> {
         password_hash text,
         created_at timestamptz NOT NULL DEFAULT now()
       )`;
+      // profile columns (added for existing tables too)
+      await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS gender text`;
+      await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS age integer`;
+      await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS city text`;
+      await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS institution text`;
+      await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar text`;
+      await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS verified boolean NOT NULL DEFAULT false`;
       return sql;
     })();
   }
@@ -60,7 +83,6 @@ async function writeFileUsers(list: User[]) {
 }
 
 // Default admin(s) — used when the ADMIN_EMAILS env var isn't set.
-// (Not secret: this email is already published across the site.)
 const DEFAULT_ADMINS = ["buildwithcatalyst@gmail.com"];
 
 /** Admin emails come from ADMIN_EMAILS (comma-separated), falling back to DEFAULT_ADMINS. */
@@ -88,8 +110,17 @@ function rowToUser(r: Record<string, unknown>): User {
     passwordHash: (r.password_hash as string) ?? undefined,
     createdAt:
       r.created_at instanceof Date ? r.created_at.toISOString() : String(r.created_at ?? new Date().toISOString()),
+    gender: (r.gender as string) ?? undefined,
+    age: r.age == null ? undefined : Number(r.age),
+    city: (r.city as string) ?? undefined,
+    institution: (r.institution as string) ?? undefined,
+    avatar: (r.avatar as string) ?? undefined,
+    verified: Boolean(r.verified),
   };
 }
+
+const strip = <T extends Record<string, unknown>>(o: T): Partial<T> =>
+  Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined)) as Partial<T>;
 
 export async function getUserByEmail(email: string): Promise<User | null> {
   const e = email.trim().toLowerCase();
@@ -100,6 +131,16 @@ export async function getUserByEmail(email: string): Promise<User | null> {
   }
   const list = await readFileUsers();
   return list.find((u) => u.email.toLowerCase() === e) ?? null;
+}
+
+export async function getUserById(id: string): Promise<User | null> {
+  if (hasDb()) {
+    const sql = await db();
+    const rows = await sql`SELECT * FROM users WHERE id = ${id} LIMIT 1`;
+    return rows[0] ? rowToUser(rows[0]) : null;
+  }
+  const list = await readFileUsers();
+  return list.find((u) => u.id === id) ?? null;
 }
 
 /** Create an email/password user. Throws "EMAIL_TAKEN" if the email already exists. */
@@ -122,6 +163,7 @@ export async function createUser(input: {
     provider: "credentials",
     passwordHash,
     createdAt: new Date().toISOString(),
+    verified: false,
   };
   if (hasDb()) {
     const sql = await db();
@@ -164,11 +206,12 @@ export async function upsertGoogleUser(input: { name?: string; email: string }):
     role: roleForEmail(email),
     provider: "google",
     createdAt: new Date().toISOString(),
+    verified: true, // Google emails are already verified
   };
   if (hasDb()) {
     const sql = await db();
-    await sql`INSERT INTO users (id, name, email, role, provider)
-      VALUES (${user.id}, ${user.name}, ${user.email}, ${user.role}, 'google')
+    await sql`INSERT INTO users (id, name, email, role, provider, verified)
+      VALUES (${user.id}, ${user.name}, ${user.email}, ${user.role}, 'google', true)
       ON CONFLICT (email) DO NOTHING`;
   } else {
     const list = await readFileUsers();
@@ -178,16 +221,46 @@ export async function upsertGoogleUser(input: { name?: string; email: string }):
   return user;
 }
 
+/** Update the profile fields for a user. Returns the updated public user. */
+export async function updateProfile(id: string, patch: ProfilePatch): Promise<PublicUser | null> {
+  const existing = await getUserById(id);
+  if (!existing) return null;
+  const merged = { ...existing, ...strip(patch as Record<string, unknown>) } as User;
+  if (hasDb()) {
+    const sql = await db();
+    await sql`UPDATE users SET
+        phone = ${merged.phone ?? null},
+        gender = ${merged.gender ?? null},
+        age = ${merged.age ?? null},
+        city = ${merged.city ?? null},
+        institution = ${merged.institution ?? null},
+        avatar = ${merged.avatar ?? null}
+      WHERE id = ${id}`;
+  } else {
+    const list = await readFileUsers();
+    const i = list.findIndex((u) => u.id === id);
+    if (i >= 0) {
+      list[i] = merged;
+      await writeFileUsers(list);
+    }
+  }
+  const { passwordHash: _o, ...pub } = merged;
+  void _o;
+  return pub;
+}
+
 export async function listUsers(): Promise<PublicUser[]> {
   if (hasDb()) {
     const sql = await db();
-    const rows = await sql`SELECT id, name, email, phone, role, provider, created_at FROM users ORDER BY created_at DESC`;
+    const rows = await sql`SELECT id, name, email, phone, role, provider, created_at,
+      gender, age, city, institution, verified FROM users ORDER BY created_at DESC`;
     return rows.map(rowToUser);
   }
   const list = await readFileUsers();
   return list
-    .map(({ passwordHash: _o, ...u }) => {
+    .map(({ passwordHash: _o, avatar: _a, ...u }) => {
       void _o;
+      void _a;
       return u;
     })
     .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
