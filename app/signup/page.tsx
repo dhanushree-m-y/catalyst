@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import AuthSlider from "@/components/AuthSlider";
+import AuthDecor from "@/components/AuthDecor";
+import CursorGlow from "@/components/CursorGlow";
 
 export const metadata: Metadata = {
   title: "Create an account — Catalyst",
@@ -9,6 +11,7 @@ export const metadata: Metadata = {
 export default function SignupPage() {
   return (
     <main className="auth-stage">
+      <AuthDecor />
       <a href="/" className="auth-home">
         <span className="auth-home-mark">✦</span> Catalyst
       </a>
@@ -16,6 +19,7 @@ export default function SignupPage() {
         initialMode="signup"
         googleEnabled={!!process.env.AUTH_GOOGLE_ID && !!process.env.AUTH_GOOGLE_SECRET}
       />
+      <CursorGlow />
     </main>
   );
 }

@@ -913,3 +913,30 @@ footer{background:linear-gradient(160deg,var(--soft-2),var(--soft));color:var(--
 /* constrain the auth card so it never overflows small screens */
 .auth-stage{display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .auth-slider{width:min(768px,100%);}
+
+/* ============ AUTH decorative animation layer ============ */
+.auth-decor{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;}
+.auth-stage .auth-slider{z-index:1;}
+.auth-home{z-index:3;}
+.auth-flr{position:absolute;fill:var(--rose);animation-duration:6s;}
+.auth-flr.f1{top:5%;left:4%;width:130px;height:130px;opacity:.5;animation-delay:-1s;}
+.auth-flr.f2{bottom:7%;left:9%;width:76px;height:76px;opacity:.4;animation-delay:-2.5s;}
+.auth-flr.f3{top:11%;right:5%;width:96px;height:96px;opacity:.42;animation-delay:-1.8s;}
+.auth-flr.f4{bottom:5%;right:7%;width:140px;height:140px;opacity:.42;animation-delay:-3.2s;}
+.auth-flr.f5{top:46%;left:1.5%;width:58px;height:58px;opacity:.32;animation-delay:-0.5s;}
+.auth-spark{position:absolute;color:var(--accent);font-size:18px;opacity:.5;
+  animation:authSpark 3.4s ease-in-out infinite;}
+@keyframes authSpark{
+  0%,100%{opacity:.18;transform:translateY(0) scale(.7);}
+  50%{opacity:.95;transform:translateY(-14px) scale(1.12);}
+}
+.auth-spark.s1{top:15%;left:15%;font-size:24px;animation-duration:3.8s;}
+.auth-spark.s2{top:70%;left:6%;animation-duration:4.4s;animation-delay:-1s;}
+.auth-spark.s3{top:33%;left:3%;font-size:14px;animation-duration:3s;animation-delay:-2s;}
+.auth-spark.s4{top:20%;right:13%;animation-duration:4s;animation-delay:-.6s;}
+.auth-spark.s5{top:58%;right:4%;font-size:26px;animation-duration:5s;animation-delay:-1.4s;}
+.auth-spark.s6{bottom:13%;right:17%;font-size:15px;animation-duration:3.6s;animation-delay:-2.4s;}
+.auth-spark.s7{top:48%;right:2%;font-size:13px;animation-duration:4.2s;animation-delay:-3s;}
+.auth-spark.s8{bottom:22%;left:17%;font-size:20px;animation-duration:4.6s;animation-delay:-.9s;}
+@media (prefers-reduced-motion:reduce){ .auth-flr,.auth-spark{animation:none;} }
+@media (max-width:640px){ .auth-flr.f5,.auth-spark.s3,.auth-spark.s7{display:none;} }
