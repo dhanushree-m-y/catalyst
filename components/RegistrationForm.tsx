@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { QRCodeSVG } from "qrcode.react";
 
 const PROBLEMS = [
   "AI for social impact",
@@ -9,12 +8,6 @@ const PROBLEMS = [
   "Access for all",
   "Undecided — we'll bring our own idea",
 ];
-
-const UPI_ID = "catalyst@upi"; // TODO: replace with the real Catalyst UPI id
-const FEE = 400;
-const UPI_LINK = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=Catalyst&am=${FEE}.00&cu=INR&tn=${encodeURIComponent(
-  "Git With Her registration"
-)}`;
 
 type Member = { name: string; email: string; github: string };
 const emptyMember = (): Member => ({ name: "", email: "", github: "" });
@@ -26,7 +19,6 @@ export default function RegistrationForm() {
   const [size, setSize] = useState(3);
   const [lead, setLead] = useState({ name: "", email: "", phone: "", github: "", linkedin: "" });
   const [members, setMembers] = useState<Member[]>([emptyMember(), emptyMember()]);
-  const [txn, setTxn] = useState("");
   const [agree, setAgree] = useState(false);
 
   const [status, setStatus] = useState<"idle" | "submitting" | "done" | "error">("idle");
@@ -53,10 +45,6 @@ export default function RegistrationForm() {
       setError("Please fill in your team name, institution, and team-lead name & email.");
       return;
     }
-    if (!txn.trim()) {
-      setError("Please complete the ₹400 payment and enter the UPI reference number.");
-      return;
-    }
     if (!agree) {
       setError("Please accept the code of conduct to register.");
       return;
@@ -73,7 +61,6 @@ export default function RegistrationForm() {
           size,
           lead,
           members,
-          payment: { amount: FEE, txn },
         }),
       });
       const data = await res.json();
@@ -90,11 +77,11 @@ export default function RegistrationForm() {
     return (
       <div className="reg-done">
         <div className="reg-check">✓</div>
-        <h2 className="h2">You&apos;re registered!</h2>
+        <h2 className="h2">Team registered!</h2>
         <p className="lead">
-          Team <strong>{teamName}</strong> is in for Git With Her. Your registration id is{" "}
-          <strong>{regId}</strong> — we&apos;ve noted your payment reference and will confirm by
-          email at <strong>{lead.email}</strong>.
+          Team <strong>{teamName}</strong> is in for Git With Her — your registration id is{" "}
+          <strong>{regId}</strong>. We&apos;ll review all entries and email the shortlisted teams at{" "}
+          <strong>{lead.email}</strong> with the next steps and how to pay the ₹400 team fee.
         </p>
         <a href="/git-with-her" className="btn btn-primary">
           Back to the hackathon <span className="arw">→</span>
@@ -105,6 +92,11 @@ export default function RegistrationForm() {
 
   return (
     <form className="reg-form" onSubmit={submit} noValidate>
+      <p className="reg-info">
+        Registration is free right now. We&apos;ll <strong>shortlist teams</strong> and only the
+        selected teams pay the <strong>₹400 team fee</strong> — we&apos;ll email you the details.
+      </p>
+
       {/* Team */}
       <div className="reg-section">
         <h3 className="reg-legend">Your team</h3>
@@ -193,27 +185,6 @@ export default function RegistrationForm() {
         ))}
       </div>
 
-      {/* Payment */}
-      <div className="reg-section reg-pay">
-        <h3 className="reg-legend">Payment — ₹{FEE} per team</h3>
-        <div className="reg-pay-grid">
-          <div className="reg-qr">
-            <QRCodeSVG value={UPI_LINK} size={152} bgColor="#ffffff" fgColor="#4a1330" level="M" />
-          </div>
-          <div className="reg-pay-info">
-            <p className="reg-pay-help">
-              Scan the QR with any UPI app to pay <strong>₹{FEE}</strong>, or send it to{" "}
-              <strong>{UPI_ID}</strong>. Then enter the reference below so we can match your
-              payment to your team.
-            </p>
-            <label className="reg-field">
-              <span>UPI transaction / UTR reference *</span>
-              <input value={txn} onChange={(e) => setTxn(e.target.value)} placeholder="12-digit reference" required />
-            </label>
-          </div>
-        </div>
-      </div>
-
       <label className="reg-agree">
         <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} />
         <span>
@@ -224,7 +195,7 @@ export default function RegistrationForm() {
       {error && <p className="reg-error">{error}</p>}
 
       <button className="btn btn-primary reg-submit" type="submit" disabled={status === "submitting"}>
-        {status === "submitting" ? "Submitting…" : "Complete registration"} <span className="arw">→</span>
+        {status === "submitting" ? "Submitting…" : "Register team"} <span className="arw">→</span>
       </button>
     </form>
   );

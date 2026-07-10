@@ -20,8 +20,7 @@ function validate(kind: Kind, b: Record<string, unknown>): string[] {
     const lead = (b.lead ?? {}) as Record<string, unknown>;
     if (!s(lead.name)) missing.push("team lead name");
     if (!s(lead.email)) missing.push("team lead email");
-    const pay = (b.payment ?? {}) as Record<string, unknown>;
-    if (!s(pay.txn)) missing.push("payment reference");
+    // no payment at registration — shortlisted teams pay later
   } else if (kind === "volunteer") {
     if (!s(b.name)) missing.push("name");
     if (!s(b.email)) missing.push("email");

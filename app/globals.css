@@ -830,3 +830,8 @@ footer{background:linear-gradient(160deg,var(--soft-2),var(--soft));color:var(--
 .admin-denied .lead{margin:12px 0 24px;}
 @media (max-width:900px){ .admin-stats{grid-template-columns:repeat(3,1fr);} }
 @media (max-width:560px){ .admin-stats{grid-template-columns:repeat(2,1fr);} }
+
+/* registration info banner (payment-after-shortlisting) */
+.reg-info{background:var(--blush);border:1px solid var(--rose);border-radius:14px;
+  padding:14px 18px;font-size:14.5px;line-height:1.5;color:var(--clay);margin-bottom:26px;}
+.reg-info strong{color:var(--ink);}
