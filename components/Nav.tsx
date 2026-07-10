@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import Logo from "./Logo";
 
 const LEFT: [string, string][] = [
@@ -19,6 +20,7 @@ export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("");
+  const { data: session } = useSession();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 32);
@@ -72,6 +74,9 @@ export default function Nav() {
               {label}
             </a>
           ))}
+          <a href={session?.user ? "/account" : "/login"} className="nav-auth">
+            {session?.user ? "Account" : "Log in"}
+          </a>
         </div>
 
         <button
@@ -92,6 +97,9 @@ export default function Nav() {
             {label}
           </a>
         ))}
+        <a href={session?.user ? "/account" : "/login"} onClick={() => setOpen(false)}>
+          {session?.user ? "My account" : "Log in"}
+        </a>
         <a
           href="/git-with-her"
           className="btn btn-primary"

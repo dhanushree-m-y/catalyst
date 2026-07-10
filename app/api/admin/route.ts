@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { listSubmissions, KINDS, type Kind, type Submission } from "@/lib/store";
+import { auth } from "@/auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -15,8 +16,14 @@ export async function GET(req: Request) {
   const key = url.searchParams.get("key");
   const admin = process.env.ADMIN_KEY;
 
-  // If no key is configured, or it doesn't match, reveal nothing.
-  if (!admin || key !== admin) {
+  // Authorized either by the ADMIN_KEY query param, or by a logged-in admin session.
+  const byKey = !!admin && key === admin;
+  let bySession = false;
+  if (!byKey) {
+    const session = await auth();
+    bySession = session?.user?.role === "admin";
+  }
+  if (!byKey && !bySession) {
     return new NextResponse("Not found", { status: 404 });
   }
 
