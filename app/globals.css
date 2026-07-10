@@ -1212,3 +1212,10 @@ footer{background:linear-gradient(160deg,var(--soft-2),var(--soft));color:var(--
 .dash-bell:hover,.dash-userchip>button:hover{transform:translateY(-1px);}
 .dash-promo-btn:hover{filter:brightness(1.07);transform:translateY(-1px);}
 .dash-skill:hover{background:#ffd7e6;}
+
+/* ---- match the site's headings exactly: upright Cormorant, weight 600 (not italic) ---- */
+.dash-h1{font-style:normal;font-weight:600;letter-spacing:0;}
+.dash-card-head h3{font-style:normal;font-weight:600;}
+.dash-ov-head{font-style:normal;font-weight:600;}
+.dash-ov-name{font-style:normal;font-weight:600;}
+.admin-title{font-style:normal;font-weight:600;}
