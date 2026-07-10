@@ -62,6 +62,12 @@ export default async function AccountPage() {
                 Open admin dashboard <span className="arw">→</span>
               </a>
             )}
+            <a href="/register" className={`btn ${role === "admin" ? "btn-dark" : "btn-primary"}`}>
+              Register your team <span className="arw">→</span>
+            </a>
+            <a href="/join" className="btn btn-dark">
+              Join the community
+            </a>
             <a href="/git-with-her" className="btn btn-ghost">
               Explore Git With Her
             </a>

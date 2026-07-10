@@ -957,3 +957,8 @@ footer{background:linear-gradient(160deg,var(--soft-2),var(--soft));color:var(--
 
 /* balance: light but keeps white text legible */
 .auth-overlay{background:linear-gradient(135deg,#ff6fb0 0%,#f14e9e 55%,#ec3e93 100%);}
+
+/* back-to-home link under the auth card */
+.auth-back{position:relative;z-index:2;margin-top:24px;color:var(--clay);font-weight:700;
+  font-size:14px;text-decoration:none;letter-spacing:.01em;transition:color .2s;}
+.auth-back:hover{color:var(--accent);}

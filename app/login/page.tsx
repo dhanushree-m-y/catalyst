@@ -19,6 +19,9 @@ export default function LoginPage() {
         initialMode="signin"
         googleEnabled={!!process.env.AUTH_GOOGLE_ID && !!process.env.AUTH_GOOGLE_SECRET}
       />
+      <a href="/" className="auth-back">
+        ← Back to home
+      </a>
       <CursorGlow />
     </main>
   );

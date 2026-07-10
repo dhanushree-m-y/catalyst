@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 const PROBLEMS = [
   "AI for social impact",
@@ -24,6 +25,18 @@ export default function RegistrationForm() {
   const [status, setStatus] = useState<"idle" | "submitting" | "done" | "error">("idle");
   const [regId, setRegId] = useState("");
   const [error, setError] = useState("");
+
+  // prefill the team lead from the logged-in account
+  const { data: session } = useSession();
+  useEffect(() => {
+    if (session?.user) {
+      setLead((prev) => ({
+        ...prev,
+        name: prev.name || session.user?.name || "",
+        email: prev.email || session.user?.email || "",
+      }));
+    }
+  }, [session]);
 
   const changeSize = (n: number) => {
     setSize(n);

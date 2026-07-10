@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 const ROLES = [
   "Host / emcee",
@@ -25,6 +26,14 @@ export default function VolunteerForm() {
   const [status, setStatus] = useState<"idle" | "submitting" | "done" | "error">("idle");
   const [regId, setRegId] = useState("");
   const [error, setError] = useState("");
+
+  const { data: session } = useSession();
+  useEffect(() => {
+    const u = session?.user;
+    if (!u) return;
+    if (u.name) setName((v) => v || u.name || "");
+    if (u.email) setEmail((v) => v || u.email || "");
+  }, [session]);
 
   const toggleRole = (r: string) =>
     setRoles((prev) => (prev.includes(r) ? prev.filter((x) => x !== r) : [...prev, r]));

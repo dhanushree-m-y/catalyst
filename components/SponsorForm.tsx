@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 const LEVELS: { key: string; label: string }[] = [
   { key: "title", label: "Title sponsor" },
@@ -24,6 +25,15 @@ export default function SponsorForm() {
     const tier = new URLSearchParams(window.location.search).get("tier");
     if (tier && LEVELS.some((l) => l.key === tier)) setLevel(tier);
   }, []);
+
+  // prefill contact person + email from the logged-in account
+  const { data: session } = useSession();
+  useEffect(() => {
+    const u = session?.user;
+    if (!u) return;
+    if (u.name) setContact((v) => v || u.name || "");
+    if (u.email) setEmail((v) => v || u.email || "");
+  }, [session]);
 
   const [status, setStatus] = useState<"idle" | "submitting" | "done" | "error">("idle");
   const [regId, setRegId] = useState("");
