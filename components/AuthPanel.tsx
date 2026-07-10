@@ -174,6 +174,9 @@ export default function AuthPanel({
           Join a community of changemakers, builders and dreamers.
         </div>
 
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img className="authx-illus" src="/Women-cutout.png" alt="" />
+
         <div className="authx-stats">
           <div><b>500+</b><span>Members</span></div>
           <div><b>30+</b><span>Teams</span></div>
