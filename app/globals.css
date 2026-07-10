@@ -1221,3 +1221,7 @@ footer{background:linear-gradient(160deg,var(--soft-2),var(--soft));color:var(--
 .dash-ov-head{font-style:normal;font-weight:600;}
 .dash-ov-name{font-style:normal;font-weight:600;}
 .admin-title{font-style:normal;font-weight:600;}
+
+/* ---- site-style script eyebrows on the dashboard (Grand Hotel) ---- */
+.dash-eyebrow{font-size:22px;margin-bottom:2px;justify-content:flex-start;}
+.dash-ov-head{font-family:var(--script);font-weight:400;font-style:normal;color:var(--accent);font-size:22px;margin-bottom:14px;letter-spacing:0;}
