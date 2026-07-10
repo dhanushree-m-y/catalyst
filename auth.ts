@@ -1,8 +1,22 @@
+import { createHash } from "crypto";
 import NextAuth, { type DefaultSession } from "next-auth";
 import type { Provider } from "next-auth/providers";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import { verifyCredentials, upsertGoogleUser, roleForEmail } from "@/lib/users";
+
+/**
+ * Session-signing secret. Uses AUTH_SECRET if set; otherwise derives a stable secret
+ * from the database connection string (already a private env var in production, never in
+ * the public repo). This lets auth work with zero extra configuration on Vercel.
+ */
+function resolveSecret(): string {
+  if (process.env.AUTH_SECRET) return process.env.AUTH_SECRET;
+  const base =
+    process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.DATABASE_URL_UNPOOLED;
+  if (base) return createHash("sha256").update("catalyst-auth::" + base).digest("hex");
+  return "catalyst-dev-only-insecure-secret";
+}
 
 declare module "next-auth" {
   interface Session {
@@ -34,6 +48,7 @@ if (process.env.AUTH_GOOGLE_ID && process.env.AUTH_GOOGLE_SECRET) {
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  secret: resolveSecret(),
   session: { strategy: "jwt" },
   trustHost: true,
   pages: { signIn: "/login" },
