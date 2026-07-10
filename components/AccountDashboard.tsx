@@ -3,6 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
+import Flower from "./Flower";
 
 export type DashUser = {
   name: string;
@@ -215,6 +216,8 @@ export default function AccountDashboard({ user }: { user: DashUser }) {
         </header>
 
         <div className="dash-body">
+          <Flower className="dash-flower df1" />
+          <Flower className="dash-flower df2" />
           <h1 className="dash-h1">My Profile</h1>
           <div className="dash-tabs">
             {(["personal", "education", "interests", "security"] as Tab[]).map((t) => (

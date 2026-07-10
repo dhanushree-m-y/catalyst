@@ -8,6 +8,8 @@
   --ink:#4a1330;          /* deep berry-plum text */
   --ink-2:#8a4f63;        /* muted mauve-rose body */
   --ink-3:#bd93a1;        /* faint / captions */
+  --mute:#9a6b7d;         /* muted labels / secondary text */
+  --blush:#fceff3;        /* light blush background */
   --paper:#f7e0e6;        /* blush page background */
   --paper-2:#f2d4dc;      /* soft blush tint */
   --paper-3:#ecc7d1;      /* deeper blush */
@@ -1193,3 +1195,20 @@ footer{background:linear-gradient(160deg,var(--soft-2),var(--soft));color:var(--
 .dash-tabs button.active{border-bottom-color:var(--accent);}
 .dash-side{background:#fff;}
 .dash-top{background:#fff;}
+
+/* ---- flower + hover effects on the account dashboard (site identity) ---- */
+.dash-body{position:relative;}
+.dash-flower{position:absolute;fill:var(--rose);z-index:0;pointer-events:none;}
+.dash-flower.df1{top:8px;right:24px;width:84px;height:84px;opacity:.42;}
+.dash-flower.df2{bottom:60px;left:-14px;width:58px;height:58px;opacity:.3;}
+.dash-h1,.dash-tabs,.dash-card{position:relative;z-index:1;}
+.dash-card{transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;}
+.dash-card:hover{transform:translateY(-3px);box-shadow:0 32px 58px -34px rgba(74,19,48,.5);border-color:rgba(236,62,147,.24);}
+.dash-avatar{transition:transform .2s ease;}
+.dash-avatar:hover{transform:scale(1.04);}
+.dash-journey{transition:transform .2s ease,box-shadow .2s ease;}
+.dash-journey:hover{transform:translateY(-2px);box-shadow:0 20px 40px -26px rgba(236,62,147,.5);}
+.dash-navitem,.dash-save,.dash-bell,.dash-userchip>button,.dash-promo-btn,.dash-skill,.dash-tabs button{transition:all .2s ease;}
+.dash-bell:hover,.dash-userchip>button:hover{transform:translateY(-1px);}
+.dash-promo-btn:hover{filter:brightness(1.07);transform:translateY(-1px);}
+.dash-skill:hover{background:#ffd7e6;}
