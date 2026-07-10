@@ -27,7 +27,7 @@ export default function Community() {
               your people, share the wins, and grow together — long after the
               event ends.
             </p>
-            <a href="#register" className="btn btn-primary">
+            <a href="/join" className="btn btn-primary">
               Join Catalyst <span className="arw">→</span>
             </a>
           </div>

@@ -20,10 +20,15 @@ const eventJsonLd = {
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   location: {
     "@type": "Place",
-    name: "ImagineEdge, Mysuru",
+    name: "ImagineEdge Workspace, Mysuru",
     address: { "@type": "PostalAddress", addressLocality: "Mysuru", addressRegion: "Karnataka", addressCountry: "India" },
   },
-  organizer: { "@type": "Organization", name: "Catalyst", email: "hello@catalyst.community" },
+  organizer: {
+    "@type": "Organization",
+    name: "Catalyst",
+    email: "buildwithcatalyst@gmail.com",
+    telephone: "+91-7899731279",
+  },
   offers: {
     "@type": "Offer",
     name: "Team Registration",
@@ -62,7 +67,7 @@ export default function GitWithHerPage() {
             <a href="/#about" className="hack-back">
               ← Back to community
             </a>
-            <a href="#register" className="btn btn-primary">
+            <a href="/register" className="btn btn-primary">
               Register
             </a>
           </div>
@@ -81,7 +86,7 @@ export default function GitWithHerPage() {
               software, hardware, design and beyond.
             </p>
             <div className="hero-actions">
-              <a href="#register" className="btn btn-primary">
+              <a href="/register" className="btn btn-primary">
                 Register <span className="arw">→</span>
               </a>
               <a href="#details" className="btn btn-ghost">
@@ -120,7 +125,7 @@ export default function GitWithHerPage() {
               we&apos;ll take care of the space, the mentors and the good energy.
             </p>
             <a
-              href="mailto:hello@catalyst.community?subject=Git%20With%20Her%20registration"
+              href="/register"
               className="btn btn-primary"
             >
               Register now <span className="arw">→</span>

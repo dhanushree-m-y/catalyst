@@ -31,7 +31,7 @@ export default function HackProblems() {
         </div>
         <div className="problem-list">
           {problems.map((p) => (
-            <a key={p.n} href="#register" className="problem-row">
+            <a key={p.n} href="/register" className="problem-row">
               <div className="problem-num">{p.n}</div>
               <div className="problem-thumb">
                 <ImageSlot src={p.img} shape="rect" placeholder={p.title} />

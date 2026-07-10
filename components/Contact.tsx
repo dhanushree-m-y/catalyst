@@ -3,7 +3,7 @@ const channels = [
     title: "Join the community",
     desc: "Become a member and get first access to every event.",
     cta: "Join us →",
-    href: "#register",
+    href: "/join",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <circle cx="9" cy="8" r="3" />
@@ -16,7 +16,7 @@ const channels = [
     title: "Become a sponsor",
     desc: "Back the next generation of women who build.",
     cta: "Partner with us →",
-    href: "#sponsors",
+    href: "/sponsor",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <path d="M12 21s-7-4.5-7-10a4 4 0 017-2.6A4 4 0 0119 11c0 5.5-7 10-7 10z" />
@@ -27,7 +27,7 @@ const channels = [
     title: "Host an event",
     desc: "Run a workshop, panel or meetup with our support.",
     cta: "Propose it →",
-    href: "#host",
+    href: "/host",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <path d="M8 21h8M12 17v4M5 4h14v7a7 7 0 01-14 0zM5 7H3v2a3 3 0 003 3M19 7h2v2a3 3 0 01-3 3" />
@@ -38,7 +38,7 @@ const channels = [
     title: "General enquiries",
     desc: "Questions, press, or just want to say hello?",
     cta: "Email us →",
-    href: "mailto:hello@catalyst.community",
+    href: "mailto:buildwithcatalyst@gmail.com",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <rect x="3" y="5" width="18" height="14" rx="3" />
@@ -71,7 +71,25 @@ export default function Contact() {
           ))}
         </div>
         <p className="contact-note">
-          Prefer email? <a href="mailto:hello@catalyst.community">hello@catalyst.community</a>
+          Prefer to talk? Email{" "}
+          <a href="mailto:buildwithcatalyst@gmail.com">buildwithcatalyst@gmail.com</a> or call{" "}
+          <a href="tel:+917899731279">+91 78997 31279</a>. Follow along on{" "}
+          <a
+            href="https://www.instagram.com/build.with.catalyst"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Instagram
+          </a>{" "}
+          and{" "}
+          <a
+            href="https://www.linkedin.com/in/build-with-catalyst-184090421"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            LinkedIn
+          </a>
+          .
         </p>
       </div>
     </section>

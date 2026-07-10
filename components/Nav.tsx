@@ -93,7 +93,7 @@ export default function Nav() {
           </a>
         ))}
         <a
-          href="#register"
+          href="/register"
           className="btn btn-primary"
           onClick={() => setOpen(false)}
         >

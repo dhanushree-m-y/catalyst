@@ -10,7 +10,7 @@ export default function HostEvent() {
             want to run, we&apos;ll help you find the space, the people and the
             support to make it happen.
           </p>
-          <a href="#contact" className="btn">
+          <a href="/host" className="btn">
             Propose an event <span className="arw">→</span>
           </a>
         </div>

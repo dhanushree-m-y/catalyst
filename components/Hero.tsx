@@ -18,7 +18,7 @@ export default function Hero() {
               dreaming about.
             </p>
             <div className="hero-actions">
-              <a href="#register" className="btn btn-primary">
+              <a href="/join" className="btn btn-primary">
                 Join Catalyst <span className="arw">→</span>
               </a>
               <a href="#why" className="btn btn-ghost">

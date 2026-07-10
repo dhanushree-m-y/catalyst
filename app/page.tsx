@@ -9,6 +9,7 @@ import Upcoming from "@/components/Upcoming";
 import Community from "@/components/Community";
 import Sponsors from "@/components/Sponsors";
 import HostEvent from "@/components/HostEvent";
+import Volunteer from "@/components/Volunteer";
 import Contact from "@/components/Contact";
 import FinalCta from "@/components/FinalCta";
 import Footer from "@/components/Footer";
@@ -31,6 +32,7 @@ export default function Home() {
       <Community />
       <Sponsors />
       <HostEvent />
+      <Volunteer />
       <Contact />
       <FinalCta />
       <Footer />
