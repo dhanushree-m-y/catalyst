@@ -9,10 +9,6 @@ const items = [
     a: "Any woman curious about technology — students, recent graduates, and career-switchers alike. Come solo or with friends; we'll help you find a team of 2–4.",
   },
   {
-    q: "How much does it cost?",
-    a: "It's free to take part — your spot, mentorship, workshops and everything you need to build are covered. Just bring your team and your ideas.",
-  },
-  {
     q: "What should I bring?",
     a: "A laptop, your charger, and an open mind. We'll take care of the food, the space, the mentors, and the good energy.",
   },

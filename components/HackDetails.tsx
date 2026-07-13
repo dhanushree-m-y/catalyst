@@ -6,7 +6,7 @@ export default function HackDetails() {
           <div className="hack-bar-item">2–4 per Team</div>
           <div className="hack-bar-item">Women Only</div>
           <div className="hack-bar-item">8 Hours</div>
-          <div className="hack-bar-item">Free to Enter</div>
+          <div className="hack-bar-item">Beginner Friendly</div>
           <a href="/register" className="hack-bar-item hack-bar-cta">
             Register Now
           </a>

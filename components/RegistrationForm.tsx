@@ -106,7 +106,7 @@ export default function RegistrationForm() {
   return (
     <form className="reg-form" onSubmit={submit} noValidate>
       <p className="reg-info">
-        Registration is free. We&apos;ll <strong>shortlist teams</strong> and email the
+        We&apos;ll <strong>shortlist teams</strong> and email the
         selected ones with the next steps.
       </p>
 

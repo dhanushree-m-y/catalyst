@@ -30,14 +30,6 @@ const eventJsonLd = {
     email: "buildwithcatalyst@gmail.com",
     telephone: "+91-7899731279",
   },
-  offers: {
-    "@type": "Offer",
-    name: "Team Registration",
-    price: "0",
-    priceCurrency: "INR",
-    availability: "https://schema.org/InStock",
-    validThrough: "2026-08-15T23:59:00+05:30",
-  },
   about: ["AI & Data", "Web & Mobile", "Hardware & IoT", "HealthTech", "Women Safety", "Social Impact"],
 };
 import ScrollReveal from "@/components/ScrollReveal";
@@ -123,7 +115,7 @@ export default function GitWithHerPage() {
             <div className="eyebrow center">Your seat is waiting</div>
             <h2 className="h2">Ready to build your next idea?</h2>
             <p className="lead">
-              Free to enter. Bring a laptop and an open mind —
+              Bring a laptop and an open mind —
               we&apos;ll take care of the space, the mentors and the good energy.
             </p>
             <a
