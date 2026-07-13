@@ -38,7 +38,7 @@ export default async function RegisterPage() {
               <h1 className="display">Register your team.</h1>
               <p className="lead">
                 Teams of 2–4 women · beginner friendly. Registration is free — we&apos;ll
-                shortlist teams, and selected teams pay the ₹400 fee afterwards.
+                shortlist teams and email the selected ones with the next steps.
               </p>
             </>
           ) : (
@@ -46,7 +46,7 @@ export default async function RegisterPage() {
               <h1 className="display">Registration opens soon.</h1>
               <p className="lead">
                 Team sign-ups for Git With Her are almost here — teams of 2–4 women,
-                ₹400 per team, beginner friendly.
+                free to enter, beginner friendly.
               </p>
             </>
           )}

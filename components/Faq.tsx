@@ -10,7 +10,7 @@ const items = [
   },
   {
     q: "How much does it cost?",
-    a: "Registration is ₹400 per team for the full day — that covers your spot, mentorship, workshops, and everything you need to build. Partners help keep it affordable for everyone.",
+    a: "It's free to take part — your spot, mentorship, workshops and everything you need to build are covered. Just bring your team and your ideas.",
   },
   {
     q: "What should I bring?",

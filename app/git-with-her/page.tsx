@@ -33,7 +33,7 @@ const eventJsonLd = {
   offers: {
     "@type": "Offer",
     name: "Team Registration",
-    price: "400",
+    price: "0",
     priceCurrency: "INR",
     availability: "https://schema.org/InStock",
     validThrough: "2026-08-15T23:59:00+05:30",
@@ -123,7 +123,7 @@ export default function GitWithHerPage() {
             <div className="eyebrow center">Your seat is waiting</div>
             <h2 className="h2">Ready to build your next idea?</h2>
             <p className="lead">
-              Registration is ₹400 per team. Bring a laptop and an open mind —
+              Free to enter. Bring a laptop and an open mind —
               we&apos;ll take care of the space, the mentors and the good energy.
             </p>
             <a

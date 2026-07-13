@@ -94,7 +94,7 @@ export default function RegistrationForm() {
         <p className="lead">
           Team <strong>{teamName}</strong> is in for Git With Her — your registration id is{" "}
           <strong>{regId}</strong>. We&apos;ll review all entries and email the shortlisted teams at{" "}
-          <strong>{lead.email}</strong> with the next steps and how to pay the ₹400 team fee.
+          <strong>{lead.email}</strong> with the next steps.
         </p>
         <a href="/git-with-her" className="btn btn-primary">
           Back to the hackathon <span className="arw">→</span>
@@ -106,8 +106,8 @@ export default function RegistrationForm() {
   return (
     <form className="reg-form" onSubmit={submit} noValidate>
       <p className="reg-info">
-        Registration is free right now. We&apos;ll <strong>shortlist teams</strong> and only the
-        selected teams pay the <strong>₹400 team fee</strong> — we&apos;ll email you the details.
+        Registration is free. We&apos;ll <strong>shortlist teams</strong> and email the
+        selected ones with the next steps.
       </p>
 
       {/* Team */}
