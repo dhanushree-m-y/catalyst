@@ -29,9 +29,9 @@ const Briefcase = () => (
 );
 
 const places = [
-  { place: "2nd", amount: "₹15,000", extra: "+ certificates & goodies", Icon: Medal },
-  { place: "1st", amount: "₹25,000", extra: "+ trophy & recruiter intros", Icon: Trophy, top: true },
-  { place: "3rd", amount: "₹10,000", extra: "+ certificates & goodies", Icon: Medal },
+  { place: "2nd", amount: "₹10,000", extra: "+ certificates & goodies", Icon: Medal },
+  { place: "1st", amount: "₹15,000", extra: "+ trophy & recruiter intros", Icon: Trophy, top: true },
+  { place: "3rd", amount: "₹5,000", extra: "+ certificates & goodies", Icon: Medal },
 ];
 
 const perks = [
@@ -47,7 +47,7 @@ export default function HackPrizes() {
       <div className="wrap">
         <div className="head-block center reveal">
           <div className="eyebrow center">Worth building for</div>
-          <h2 className="h2">A ₹50,000 prize pool.</h2>
+          <h2 className="h2">A ₹30,000 prize pool.</h2>
         </div>
         <div className="prize-grid reveal d1">
           {places.map(({ place, amount, extra, Icon, top }) => (

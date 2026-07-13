@@ -170,7 +170,7 @@ export default function AuthPanel({
         <div className="authx-stats">
           <div><b>500+</b><span>Members</span></div>
           <div><b>30+</b><span>Teams</span></div>
-          <div><b>₹50,000</b><span>Prizes</span></div>
+          <div><b>₹30,000</b><span>Prizes</span></div>
         </div>
       </div>
 

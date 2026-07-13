@@ -14,7 +14,7 @@ const eventJsonLd = {
   "@type": "Event",
   name: "Git With Her — Catalyst Hackathon",
   description:
-    "Git With Her is Catalyst's flagship women-only hackathon: an eight-hour build day for women across every field, with mentors, workshops and a ₹50,000 prize pool.",
+    "Git With Her is Catalyst's flagship women-only hackathon: an eight-hour build day for women across every field, with mentors, workshops and a ₹30,000 prize pool.",
   startDate: "2026-08-23T09:00:00+05:30",
   endDate: "2026-08-23T17:00:00+05:30",
   eventStatus: "https://schema.org/EventScheduled",
