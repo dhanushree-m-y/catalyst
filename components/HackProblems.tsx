@@ -4,20 +4,20 @@ const problems = [
   {
     n: "01",
     title:
-      "AI for social impact — a model or tool that tackles a real community challenge.",
-    img: "https://images.unsplash.com/photo-1633114072836-15d933c6d3a7?q=80&w=600&auto=format&fit=crop",
+      "Carbon Footprint & Climate Tech — build solutions that help people and organisations measure, reduce and manage their environmental impact through technology.",
+    img: "https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?q=80&w=600&auto=format&fit=crop",
   },
   {
     n: "02",
     title:
-      "Women's safety & wellbeing — tech that protects, supports or empowers women.",
-    img: "https://images.unsplash.com/photo-1758691736580-a41e0cfe9e9f?q=80&w=600&auto=format&fit=crop",
+      "Rural Empowerment — digital solutions that improve access to education, healthcare, finance, employment, agriculture or public services in rural communities.",
+    img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600&auto=format&fit=crop",
   },
   {
     n: "03",
     title:
-      "Access for all — make healthcare, education or opportunity reachable for everyone.",
-    img: "https://images.unsplash.com/photo-1681949222860-9cb3b0329878?q=80&w=600&auto=format&fit=crop",
+      "Open Innovation — solve any real-world problem with technology; build a scalable, impactful and user-centric software solution to a meaningful challenge.",
+    img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=600&auto=format&fit=crop",
   },
 ];
 

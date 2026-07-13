@@ -30,7 +30,7 @@ const eventJsonLd = {
     email: "buildwithcatalyst@gmail.com",
     telephone: "+91-7899731279",
   },
-  about: ["AI & Data", "Web & Mobile", "Hardware & IoT", "HealthTech", "Women Safety", "Social Impact"],
+  about: ["Carbon Footprint & Climate Tech", "Rural Empowerment", "Open Innovation"],
 };
 import ScrollReveal from "@/components/ScrollReveal";
 import CursorGlow from "@/components/CursorGlow";
