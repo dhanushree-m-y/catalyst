@@ -10,7 +10,7 @@ import ScrollUI from "@/components/ScrollUI";
 export const metadata: Metadata = {
   title: "Join Catalyst — the community",
   description:
-    "Join Catalyst — a free community for women across every field. Get first access to events, mentorship, hackathons and a network that keeps showing up.",
+    "Join Catalyst — a community for women across every field. Get first access to events, mentorship, hackathons and a network that keeps showing up.",
 };
 
 export default function JoinPage() {
@@ -21,10 +21,10 @@ export default function JoinPage() {
       <header className="reg-hero band-rose">
         <Flower className="reg-flower" />
         <div className="wrap">
-          <div className="eyebrow center">Free to join · Women across every field</div>
+          <div className="eyebrow center">For women across every field</div>
           <h1 className="display">Join Catalyst.</h1>
           <p className="lead">
-            Find your people, sharpen your craft and grow together. Membership is free —
+            Find your people, sharpen your craft and grow together —
             you&apos;ll get first access to every event, mentor and opportunity.
           </p>
         </div>
