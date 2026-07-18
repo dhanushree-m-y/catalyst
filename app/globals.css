@@ -731,6 +731,8 @@ footer{background:linear-gradient(160deg,var(--soft-2),var(--soft));color:var(--
 .reg-submit:disabled{opacity:.6;cursor:default;transform:none;}
 /* project / shortlisting section */
 .reg-hint{font-size:14px;color:var(--ink-2);line-height:1.55;margin:2px 0 4px;}
+.reg-subhint{font-size:13px;color:var(--ink-2);line-height:1.5;margin:-2px 0 4px;}
+.reg-subhint strong{color:var(--ink);font-weight:700;}
 .reg-deck{margin-top:2px;}
 .reg-upload{display:flex;align-items:center;gap:14px;padding:16px 18px;border:1.5px dashed rgba(74,19,48,.3);
   border-radius:14px;background:#fff;cursor:pointer;transition:border-color .2s,background .2s;}

@@ -212,7 +212,7 @@ export default function RegistrationForm() {
             </select>
           </label>
           <label className="reg-field">
-            <span>Team size</span>
+            <span>Team size (min 2, max 4)</span>
             <select value={size} onChange={(e) => changeSize(Number(e.target.value))}>
               <option value={2}>2 members</option>
               <option value={3}>3 members</option>
@@ -307,6 +307,11 @@ export default function RegistrationForm() {
 
         <div className="reg-field">
           <span>Pitch deck / presentation *</span>
+          <p className="reg-subhint">
+            Your deck (PPT or PDF) should cover: the <strong>problem statement</strong> you&apos;re
+            solving, <strong>how you&apos;ll solve it</strong>, your <strong>tech stack</strong>, and
+            your build plan.
+          </p>
           <div className="reg-deck">
             {deck ? (
               <div className="reg-deck-file">
