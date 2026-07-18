@@ -32,6 +32,7 @@ export default function RegistrationForm() {
   const [deckLink, setDeckLink] = useState("");
   const [deck, setDeck] = useState<{ url: string; name: string } | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [uploadPct, setUploadPct] = useState(0);
   const [uploadErr, setUploadErr] = useState("");
   const [uploadEnabled, setUploadEnabled] = useState(false); // shown only when Blob is configured
   const fileRef = useRef<HTMLInputElement>(null);
@@ -91,12 +92,15 @@ export default function RegistrationForm() {
       return;
     }
     setUploading(true);
+    setUploadPct(0);
     try {
       const { upload } = await import("@vercel/blob/client");
       const blob = await upload(`decks/${file.name}`, file, {
         access: "public",
         handleUploadUrl: "/api/upload",
         contentType: file.type || undefined,
+        multipart: true, // parallel chunks — faster & more reliable for big decks
+        onUploadProgress: (p) => setUploadPct(Math.round(p.percentage)),
       });
       setDeck({ url: blob.url, name: file.name });
     } catch (err) {
@@ -352,8 +356,8 @@ export default function RegistrationForm() {
                   </svg>
                 </span>
                 <span className="reg-upload-txt">
-                  {uploading ? "Uploading…" : "Upload PDF or PowerPoint"}
-                  <small>Max {MAX_DECK_MB} MB · .pdf, .ppt, .pptx</small>
+                  {uploading ? `Uploading… ${uploadPct}%` : "Upload PDF or PowerPoint"}
+                  <small>{uploading ? "Keep this tab open until it finishes" : `Max ${MAX_DECK_MB} MB · .pdf, .ppt, .pptx`}</small>
                 </span>
               </label>
             )}
