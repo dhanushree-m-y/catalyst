@@ -12,26 +12,82 @@ import type { ReactNode } from "react";
 export const metadata: Metadata = { title: "Admin dashboard — Catalyst" };
 export const dynamic = "force-dynamic";
 
-const KIND_META: Record<Kind, { label: string; cols: [string, string][] }> = {
+type Col = { key: string; label: string; render?: (v: unknown, row: Submission) => ReactNode };
+
+// prepend https:// so bare inputs like "github.com/x" still resolve
+function normUrl(v: unknown): string {
+  const s = typeof v === "string" ? v.trim() : "";
+  if (!s) return "";
+  return /^https?:\/\//i.test(s) ? s : `https://${s}`;
+}
+
+function linkCell(v: unknown, label: string): ReactNode {
+  const href = normUrl(v);
+  if (!href) return "—";
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer" className="admin-link">
+      {label} <span aria-hidden="true">↗</span>
+    </a>
+  );
+}
+
+const KIND_META: Record<Kind, { label: string; cols: Col[] }> = {
   participant: {
     label: "Team registrations",
-    cols: [["teamName", "Team"], ["institution", "Institution"], ["lead", "Lead"], ["problem", "Problem"]],
+    cols: [
+      { key: "teamName", label: "Team" },
+      { key: "institution", label: "Institution" },
+      { key: "lead", label: "Lead" },
+      { key: "problem", label: "Problem" },
+      { key: "projectTitle", label: "Project" },
+      {
+        key: "approach",
+        label: "Approach",
+        render: (v) => {
+          const s = typeof v === "string" ? v.trim() : "";
+          if (!s) return "—";
+          return (
+            <span className="admin-approach" title={s}>
+              {s.length > 90 ? `${s.slice(0, 90)}…` : s}
+            </span>
+          );
+        },
+      },
+      { key: "repo", label: "Repo", render: (v) => linkCell(v, "GitHub") },
+      {
+        key: "deckUrl",
+        label: "Deck",
+        render: (v, row) => linkCell((v as string) || row.deckLink, "Deck"),
+      },
+    ],
   },
   member: {
     label: "Community members",
-    cols: [["name", "Name"], ["email", "Email"], ["phone", "Phone"], ["field", "Field"]],
+    cols: [
+      { key: "name", label: "Name" }, { key: "email", label: "Email" },
+      { key: "phone", label: "Phone" }, { key: "field", label: "Field" },
+    ],
   },
   volunteer: {
     label: "Volunteers",
-    cols: [["name", "Name"], ["email", "Email"], ["phone", "Phone"], ["roles", "Roles"]],
+    cols: [
+      { key: "name", label: "Name" }, { key: "email", label: "Email" },
+      { key: "phone", label: "Phone" }, { key: "roles", label: "Roles" },
+    ],
   },
   sponsor: {
     label: "Sponsors",
-    cols: [["organization", "Organisation"], ["contact", "Contact"], ["email", "Email"], ["tier", "Level"]],
+    cols: [
+      { key: "organization", label: "Organisation" }, { key: "contact", label: "Contact" },
+      { key: "email", label: "Email" }, { key: "tier", label: "Level" },
+    ],
   },
   host: {
     label: "Event proposals",
-    cols: [["name", "Name"], ["email", "Email"], ["eventTitle", "Idea"], ["format", "Format"]],
+    cols: [
+      { key: "name", label: "Name" }, { key: "email", label: "Email" },
+      { key: "eventTitle", label: "Idea" }, { key: "format", label: "Format" },
+    ],
   },
 };
 
@@ -182,8 +238,8 @@ export default async function AdminPage() {
                 <table className="admin-table">
                   <thead>
                     <tr>
-                      {meta.cols.map(([, label]) => (
-                        <th key={label}>{label}</th>
+                      {meta.cols.map((col) => (
+                        <th key={col.label}>{col.label}</th>
                       ))}
                       <th>When</th>
                       <th aria-label="Actions"></th>
@@ -192,14 +248,16 @@ export default async function AdminPage() {
                   <tbody>
                     {list.map((r) => (
                       <tr key={r.id}>
-                        {meta.cols.map(([key, label]) => (
-                          <td key={label}>{cell(r[key])}</td>
+                        {meta.cols.map((col) => (
+                          <td key={col.label}>
+                            {col.render ? col.render(r[col.key], r) : cell(r[col.key])}
+                          </td>
                         ))}
                         <td className="admin-when">{fmtDate(r.submittedAt)}</td>
                         <td className="admin-act">
                           <AdminDeleteButton
                             id={r.id}
-                            label={cell(r[meta.cols[0][0]]) || meta.label}
+                            label={cell(r[meta.cols[0].key]) || meta.label}
                           />
                         </td>
                       </tr>

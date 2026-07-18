@@ -20,6 +20,10 @@ function validate(kind: Kind, b: Record<string, unknown>): string[] {
     const lead = (b.lead ?? {}) as Record<string, unknown>;
     if (!s(lead.name)) missing.push("team lead name");
     if (!s(lead.email)) missing.push("team lead email");
+    // shortlisting phase: how they'll build it, their repo, and a pitch deck
+    if (!s(b.approach)) missing.push("your approach");
+    if (!s(b.repo)) missing.push("project GitHub repo");
+    if (!s(b.deckUrl) && !s(b.deckLink)) missing.push("a pitch deck (upload or link)");
     // no payment at registration — shortlisted teams pay later
   } else if (kind === "volunteer") {
     if (!s(b.name)) missing.push("name");
