@@ -379,6 +379,40 @@ function SecurityTab({ verified }: { verified: boolean; emailEnabled?: boolean }
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
 
+  // email verification
+  const [isVerified, setIsVerified] = useState(verified);
+  const [codeSent, setCodeSent] = useState(false);
+  const [code, setCode] = useState("");
+  const [devCode, setDevCode] = useState("");
+  const [vMsg, setVMsg] = useState("");
+  const [vErr, setVErr] = useState("");
+  const [vBusy, setVBusy] = useState(false);
+
+  const sendCode = async () => {
+    setVErr(""); setVMsg(""); setVBusy(true);
+    try {
+      const res = await fetch("/api/verify/send", { method: "POST" });
+      const data = await res.json();
+      if (!res.ok || !data.ok) throw new Error(data.error || "Couldn't send the code.");
+      if (data.alreadyVerified) { setIsVerified(true); return; }
+      setCodeSent(true);
+      if (data.devCode) { setDevCode(String(data.devCode)); setVMsg("Email isn't set up yet — use this test code:"); }
+      else { setVMsg("We emailed a 6-digit code to your inbox. It expires in 15 minutes."); }
+    } catch (e2) { setVErr(e2 instanceof Error ? e2.message : "Couldn't send the code."); }
+    finally { setVBusy(false); }
+  };
+
+  const verify = async () => {
+    setVErr(""); setVMsg(""); setVBusy(true);
+    try {
+      const res = await fetch("/api/verify", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code }) });
+      const data = await res.json();
+      if (!res.ok || !data.ok) throw new Error(data.error || "That code isn't right.");
+      setIsVerified(true); setCodeSent(false); setCode(""); setDevCode("");
+    } catch (e2) { setVErr(e2 instanceof Error ? e2.message : "That code isn't right."); }
+    finally { setVBusy(false); }
+  };
+
   const change = async (e: React.FormEvent) => {
     e.preventDefault();
     setErr(""); setMsg("");
@@ -396,9 +430,45 @@ function SecurityTab({ verified }: { verified: boolean; emailEnabled?: boolean }
   return (
     <div className="dash-card">
       <div className="dash-card-head"><h3>Password &amp; Security</h3></div>
-      <p className="dash-sec-row">
-        Email verification: {verified ? <span className="verify-badge ok">✓ Verified</span> : <span className="verify-badge">Not verified</span>}
-      </p>
+
+      <div className="dash-verify">
+        <p className="dash-sec-row">
+          Email verification:{" "}
+          {isVerified ? <span className="verify-badge ok">✓ Verified</span> : <span className="verify-badge">Not verified</span>}
+        </p>
+        {!isVerified && (
+          <div className="dash-verify-body">
+            {!codeSent ? (
+              <>
+                <p className="dash-verify-hint">Confirm it&apos;s really you — we&apos;ll email a 6-digit code.</p>
+                <button type="button" className="dash-save" onClick={sendCode} disabled={vBusy}>
+                  {vBusy ? "Sending…" : "Send verification code"}
+                </button>
+              </>
+            ) : (
+              <div className="dash-verify-enter">
+                {devCode && <p className="dash-devcode">{devCode}</p>}
+                <input
+                  className="dash-code-input"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                  inputMode="numeric"
+                  placeholder="Enter 6-digit code"
+                  aria-label="Verification code"
+                />
+                <button type="button" className="dash-save" onClick={verify} disabled={vBusy || code.length < 4}>
+                  {vBusy ? "Verifying…" : "Verify"}
+                </button>
+                <button type="button" className="dash-link-btn" onClick={sendCode} disabled={vBusy}>Resend</button>
+              </div>
+            )}
+            {vErr && <p className="reg-error">{vErr}</p>}
+            {vMsg && !devCode && <p className="dash-ok">{vMsg}</p>}
+            {vMsg && devCode && <p className="dash-verify-hint">{vMsg}</p>}
+          </div>
+        )}
+      </div>
+
       <form className="dash-grid" onSubmit={change}>
         <Field label="Current password"><input type="password" value={cur} onChange={(e) => setCur(e.target.value)} autoComplete="current-password" /></Field>
         <Field label="New password"><input type="password" value={next} onChange={(e) => setNext(e.target.value)} placeholder="At least 8 characters" autoComplete="new-password" /></Field>
