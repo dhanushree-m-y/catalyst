@@ -23,7 +23,8 @@ function validate(kind: Kind, b: Record<string, unknown>): string[] {
     // shortlisting phase: how they'll build it, their repo, and a pitch deck
     if (!s(b.approach)) missing.push("your approach");
     if (!s(b.repo)) missing.push("project GitHub repo");
-    if (!s(b.deckUrl) && !s(b.deckLink)) missing.push("a pitch deck (upload or link)");
+    const decks = Array.isArray(b.decks) ? b.decks : [];
+    if (decks.length === 0 && !s(b.deckLink) && !s(b.deckUrl)) missing.push("a pitch deck (upload or link)");
     // no payment at registration — shortlisted teams pay later
   } else if (kind === "volunteer") {
     if (!s(b.name)) missing.push("name");

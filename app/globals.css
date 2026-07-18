@@ -733,7 +733,7 @@ footer{background:linear-gradient(160deg,var(--soft-2),var(--soft));color:var(--
 .reg-hint{font-size:14px;color:var(--ink-2);line-height:1.55;margin:2px 0 4px;}
 .reg-subhint{font-size:13px;color:var(--ink-2);line-height:1.5;margin:-2px 0 4px;}
 .reg-subhint strong{color:var(--ink);font-weight:700;}
-.reg-deck{margin-top:2px;}
+.reg-deck{margin-top:2px;display:flex;flex-direction:column;gap:10px;}
 .reg-upload{display:flex;align-items:center;gap:14px;padding:16px 18px;border:1.5px dashed rgba(74,19,48,.3);
   border-radius:14px;background:#fff;cursor:pointer;transition:border-color .2s,background .2s;}
 .reg-upload:hover{border-color:var(--accent);background:var(--accent-tint);}
@@ -903,6 +903,7 @@ footer{background:linear-gradient(160deg,var(--soft-2),var(--soft));color:var(--
   background:var(--accent-tint);transition:background .15s,color .15s;}
 .admin-link:hover{background:var(--accent);color:#fff;}
 .admin-approach{display:inline-block;max-width:230px;color:var(--ink-2);font-size:13px;line-height:1.4;cursor:help;}
+.admin-links{display:flex;flex-wrap:wrap;gap:6px;}
 .admin-act{text-align:right;white-space:nowrap;}
 .admin-act-lock{color:var(--ink-3);}
 .admin-del{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:10px;

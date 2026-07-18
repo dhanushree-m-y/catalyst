@@ -55,9 +55,22 @@ const KIND_META: Record<Kind, { label: string; cols: Col[] }> = {
       },
       { key: "repo", label: "Repo", render: (v) => linkCell(v, "GitHub") },
       {
-        key: "deckUrl",
+        key: "decks",
         label: "Deck",
-        render: (v, row) => linkCell((v as string) || row.deckLink, "Deck"),
+        render: (v, row) => {
+          const urls: string[] = [];
+          if (Array.isArray(v)) v.forEach((d) => { const u = (d as { url?: string })?.url; if (u) urls.push(u); });
+          if (typeof row.deckUrl === "string" && row.deckUrl) urls.push(row.deckUrl); // legacy single upload
+          if (typeof row.deckLink === "string" && row.deckLink) urls.push(row.deckLink);
+          if (!urls.length) return "—";
+          return (
+            <div className="admin-links">
+              {urls.map((u, i) => (
+                <span key={i}>{linkCell(u, urls.length > 1 ? `Deck ${i + 1}` : "Deck")}</span>
+              ))}
+            </div>
+          );
+        },
       },
     ],
   },
