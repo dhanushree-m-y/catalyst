@@ -99,7 +99,6 @@ export default function RegistrationForm() {
         access: "public",
         handleUploadUrl: "/api/upload",
         contentType: file.type || undefined,
-        multipart: true, // parallel chunks — faster & more reliable for big decks
         onUploadProgress: (p) => setUploadPct(Math.round(p.percentage)),
       });
       setDeck({ url: blob.url, name: file.name });
