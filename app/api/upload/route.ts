@@ -3,6 +3,11 @@ import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
 
 export const runtime = "nodejs";
 
+// The form probes this on mount to decide whether to show the upload box.
+export async function GET(): Promise<NextResponse> {
+  return NextResponse.json({ enabled: !!process.env.BLOB_READ_WRITE_TOKEN });
+}
+
 // Client-side uploads (via @vercel/blob/client `upload()`) POST here to mint a
 // short-lived token, so the file goes straight to Blob storage and never passes
 // through the serverless body limit. Needs BLOB_READ_WRITE_TOKEN in the env

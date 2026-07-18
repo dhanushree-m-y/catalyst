@@ -33,7 +33,18 @@ export default function RegistrationForm() {
   const [deck, setDeck] = useState<{ url: string; name: string } | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadErr, setUploadErr] = useState("");
+  const [uploadEnabled, setUploadEnabled] = useState(false); // shown only when Blob is configured
   const fileRef = useRef<HTMLInputElement>(null);
+
+  // hide the upload box unless file storage is actually configured on the server
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/upload")
+      .then((r) => r.json())
+      .then((d) => { if (alive) setUploadEnabled(!!d.enabled); })
+      .catch(() => { if (alive) setUploadEnabled(false); });
+    return () => { alive = false; };
+  }, []);
 
   const [status, setStatus] = useState<"idle" | "submitting" | "done" | "error">("idle");
   const [regId, setRegId] = useState("");
@@ -89,10 +100,12 @@ export default function RegistrationForm() {
       });
       setDeck({ url: blob.url, name: file.name });
     } catch (err) {
+      const raw = err instanceof Error ? err.message : "";
+      const notSetUp = /client token|BLOB_READ_WRITE_TOKEN|not been set up|store|Failed to retrieve/i.test(raw);
       setUploadErr(
-        err instanceof Error && err.message
-          ? err.message
-          : "Upload didn't work. Please paste a link to your deck instead."
+        notSetUp
+          ? "File uploads aren't enabled yet — please paste a link to your deck below instead."
+          : raw || "Upload didn't work. Please paste a link to your deck instead."
       );
       if (fileRef.current) fileRef.current.value = "";
     } finally {
@@ -312,6 +325,7 @@ export default function RegistrationForm() {
             solving, <strong>how you&apos;ll solve it</strong>, your <strong>tech stack</strong>, and
             your build plan.
           </p>
+          {uploadEnabled && (
           <div className="reg-deck">
             {deck ? (
               <div className="reg-deck-file">
@@ -344,11 +358,16 @@ export default function RegistrationForm() {
               </label>
             )}
           </div>
+          )}
           {uploadErr && <p className="reg-error reg-deck-err">{uploadErr}</p>}
         </div>
 
         <label className="reg-field">
-          <span>…or paste a deck link (Google Slides, Drive, Figma)</span>
+          <span>
+            {uploadEnabled
+              ? "…or paste a deck link (Google Slides, Drive, Figma)"
+              : "Deck link — Google Slides, Drive, or PDF *"}
+          </span>
           <input value={deckLink} onChange={(e) => setDeckLink(e.target.value)} placeholder="https://…" />
         </label>
       </div>
