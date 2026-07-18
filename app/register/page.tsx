@@ -15,8 +15,9 @@ export const metadata: Metadata = {
     "Team registration for Git With Her, Catalyst's flagship women-only hackathon on 23 August 2026 in Mysuru — opening soon.",
 };
 
-// Flip to "true" (env var on Vercel or here) to turn the live team form back on.
-const REGISTRATION_OPEN = process.env.NEXT_PUBLIC_REGISTRATION_OPEN === "true";
+// Open by default. Set NEXT_PUBLIC_REGISTRATION_OPEN="false" on Vercel to show
+// the "opens soon" screen again (e.g. once registrations close).
+const REGISTRATION_OPEN = process.env.NEXT_PUBLIC_REGISTRATION_OPEN !== "false";
 
 export default async function RegisterPage() {
   // require an account before registering a team (only matters once registration is open)
